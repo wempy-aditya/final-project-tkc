@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multimodal RAG System - Demo</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <div class="logo">
+                <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+                    <rect width="32" height="32" rx="8" fill="url(#gradient)"/>
+                    <path d="M16 8L20 12L16 16L12 12L16 8Z" fill="white"/>
+                    <path d="M16 16L20 20L16 24L12 20L16 16Z" fill="white" opacity="0.7"/>
+                    <defs>
+                        <linearGradient id="gradient" x1="0" y1="0" x2="32" y2="32">
+                            <stop offset="0%" stop-color="#667eea"/>
+                            <stop offset="100%" stop-color="#764ba2"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <h1>Multimodal RAG</h1>
+            </div>
+            <nav>
+                <a href="#features">Features</a>
+                <a href="#demo">Demo</a>
+                <a href="#architecture">Architecture</a>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <div class="hero-content">
+                <h2 class="hero-title">Intelligent Image Retrieval & Generation</h2>
+                <p class="hero-subtitle">Powered by CLIP, FAISS, LLM, and Stable Diffusion</p>
+                <div class="hero-badges">
+                    <span class="badge">COCO Dataset</span>
+                    <span class="badge">Vector Search</span>
+                    <span class="badge">AI Generation</span>
+                </div>
+                <a href="#demo" class="cta-button">Try Demo</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features" class="features">
+        <div class="container">
+            <h2 class="section-title">Key Features</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">🔍</div>
+                    <h3>Multimodal Search</h3>
+                    <p>Search images using text queries or upload similar images</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Fast Retrieval</h3>
+                    <p>FAISS-powered vector search with sub-second response time</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>AI Description</h3>
+                    <p>Generate natural language descriptions using LLM with RAG</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🎨</div>
+                    <h3>Image Generation</h3>
+                    <p>Create new images with Stable Diffusion based on context</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Demo Section -->
+    <section id="demo" class="demo">
+        <div class="container">
+            <h2 class="section-title">Interactive Demo</h2>
+            
+            <!-- Query Input -->
+            <div class="demo-panel">
+                <div class="input-section">
+                    <div class="tab-buttons">
+                        <button class="tab-btn active" data-tab="text">Text Query</button>
+                        <button class="tab-btn" data-tab="image">Image Query</button>
+                    </div>
+                    
+                    <div class="tab-content active" id="text-tab">
+                        <input type="text" id="text-query" class="text-input" placeholder="e.g., a dog playing in the park">
+                        <button class="search-btn" onclick="performSearch()">
+                            <span>🔍 Search & Generate</span>
+                        </button>
+                    </div>
+                    
+                    <div class="tab-content" id="image-tab">
+                        <div class="upload-area" id="upload-area">
+                            <input type="file" id="image-upload" accept="image/*" hidden>
+                            <label for="image-upload" class="upload-label">
+                                <div class="upload-icon">📁</div>
+                                <p>Click to upload or drag & drop</p>
+                                <span>PNG, JPG up to 10MB</span>
+                            </label>
+                        </div>
+                        <button class="search-btn" onclick="performImageSearch()" style="display: none;" id="image-search-btn">
+                            <span>🔍 Search Similar Images</span>
+                        </button>
+                    </div>
+
+                    <div class="options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="generate-text" checked>
+                            <span>Generate text description</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="generate-image">
+                            <span>Generate new image</span>
+                        </label>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Results -->
+            <div id="results" class="results" style="display: none;">
+                <!-- Retrieved Images -->
+                <div class="results-section">
+                    <h3 class="results-title">🖼️ Retrieved Images</h3>
+                    <div id="retrieved-images" class="image-grid"></div>
+                </div>
+
+                <!-- Generated Text -->
+                <div class="results-section" id="generated-text-section" style="display: none;">
+                    <h3 class="results-title">📄 Generated Description</h3>
+                    <div class="generated-text" id="generated-text"></div>
+                </div>
+
+                <!-- Generated Image -->
+                <div class="results-section" id="generated-image-section" style="display: none;">
+                    <h3 class="results-title">🎨 Generated Image</h3>
+                    <div class="generated-image-container">
+                        <img id="generated-image" alt="Generated image">
+                        <p class="image-prompt" id="image-prompt"></p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Loading State -->
+            <div id="loading" class="loading" style="display: none;">
+                <div class="spinner"></div>
+                <p>Processing your query...</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Architecture Section -->
+    <section id="architecture" class="architecture">
+        <div class="container">
+            <h2 class="section-title">System Architecture</h2>
+            <div class="architecture-diagram">
+                <div class="arch-step">
+                    <div class="arch-icon">📝</div>
+                    <h4>User Query</h4>
+                    <p>Text or Image</p>
+                </div>
+                <div class="arch-arrow">→</div>
+                <div class="arch-step">
+                    <div class="arch-icon">🧠</div>
+                    <h4>CLIP Encoder</h4>
+                    <p>Vector Embedding</p>
+                </div>
+                <div class="arch-arrow">→</div>
+                <div class="arch-step">
+                    <div class="arch-icon">🔍</div>
+                    <h4>FAISS Search</h4>
+                    <p>Top-k Similar</p>
+                </div>
+                <div class="arch-arrow">→</div>
+                <div class="arch-step">
+                    <div class="arch-icon">📚</div>
+                    <h4>RAG Context</h4>
+                    <p>Retrieved Captions</p>
+                </div>
+                <div class="arch-arrow">→</div>
+                <div class="arch-step">
+                    <div class="arch-icon">✨</div>
+                    <h4>Generation</h4>
+                    <p>LLM + SD</p>
+                </div>
+            </div>
+
+            <div class="tech-stack">
+                <h3>Technology Stack</h3>
+                <div class="tech-grid">
+                    <div class="tech-item">
+                        <strong>Dataset</strong>
+                        <span>COCO 2017</span>
+                    </div>
+                    <div class="tech-item">
+                        <strong>Embedding</strong>
+                        <span>CLIP ViT-B/32</span>
+                    </div>
+                    <div class="tech-item">
+                        <strong>Vector DB</strong>
+                        <span>FAISS</span>
+                    </div>
+                    <div class="tech-item">
+                        <strong>LLM</strong>
+                        <span>GPT-4o-mini</span>
+                    </div>
+                    <div class="tech-item">
+                        <strong>Image Gen</strong>
+                        <span>Stable Diffusion</span>
+                    </div>
+                    <div class="tech-item">
+                        <strong>Interface</strong>
+                        <span>Streamlit</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <p>&copy; 2025 Multimodal RAG System | Built with CLIP, FAISS, LLM & Stable Diffusion</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>

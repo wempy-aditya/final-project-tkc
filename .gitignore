@@ -1,0 +1,78 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Distribution / packaging
+.Python
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Virtual environments
+venv/
+env/
+ENV/
+.venv
+
+# Environment variables
+.env
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+
+# Data files
+scripts/data/coco/annotations/annotations.zip
+data/coco/val2017.zip
+scripts/data/coco/val2017.zip
+data/coco/images/
+data/coco/annotations/
+data/processed/
+*.jpg
+*.jpeg
+*.png
+*.json
+
+# Model files
+embeddings/
+*.npy
+*.bin
+*.index
+*.pkl
+*.pth
+*.safetensors
+
+# Experiments
+experiments/
+
+# Logs
+*.log
+logs/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Cache
+.cache/
+*.pyc
