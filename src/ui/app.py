@@ -1,5 +1,6 @@
 """
 Streamlit Web UI for Multimodal RAG System
+Supports text-only, image-only, and multimodal (text+image) queries
 """
 
 import streamlit as st
@@ -54,6 +55,13 @@ st.markdown("""
         border-radius: 0.25rem;
         font-weight: bold;
     }
+    .multimodal-badge {
+        background-color: #2ca02c;
+        color: white;
+        padding: 0.25rem 0.5rem;
+        border-radius: 0.25rem;
+        font-weight: bold;
+    }
 </style>
 """, unsafe_allow_html=True)
 
@@ -91,7 +99,7 @@ def load_image_generator():
 def main():
     # Header
     st.markdown('<div class="main-header">🔍 Multimodal RAG System</div>', unsafe_allow_html=True)
-    st.markdown("**Retrieve images, generate descriptions, and create new images using AI**")
+    st.markdown("**Retrieve images using text, image, or both simultaneously!**")
     
     # Initialize components
     retriever = load_retriever()
@@ -117,42 +125,115 @@ def main():
     # Main content
     st.markdown('<div class="section-header">📝 Input Query</div>', unsafe_allow_html=True)
     
-    # Query type selection
-    query_type = st.radio("Query type:", ["Text", "Image"], horizontal=True)
+    # Query mode selection
+    query_mode = st.radio(
+        "Query mode:",
+        ["Text Only", "Image Only", "Text + Image (Multimodal)"],
+        horizontal=True,
+        help="Choose how you want to search: text only, image only, or combine both for better results!"
+    )
+    
+    # Input fields in columns
+    col1, col2 = st.columns(2)
     
     query_text = None
     query_image = None
+    uploaded_file = None
     
-    if query_type == "Text":
+    with col1:
+        st.markdown("**Text Query:**")
         query_text = st.text_input(
             "Enter your text query:",
-            placeholder="e.g., a dog playing in the park"
+            placeholder="e.g., a dog playing in the park",
+            disabled=(query_mode == "Image Only"),
+            label_visibility="collapsed"
         )
-    else:
-        uploaded_file = st.file_uploader("Upload an image:", type=['jpg', 'jpeg', 'png'])
+    
+    with col2:
+        st.markdown("**Image Query:**")
+        uploaded_file = st.file_uploader(
+            "Upload an image:",
+            type=['jpg', 'jpeg', 'png'],
+            disabled=(query_mode == "Text Only"),
+            label_visibility="collapsed"
+        )
         if uploaded_file:
             query_image = Image.open(uploaded_file)
-            st.image(query_image, caption="Query Image", width=300)
+            st.image(query_image, caption="Query Image", width=250)
+    
+    # Multimodal weight slider (only for multimodal mode)
+    text_weight = 0.5
+    if query_mode == "Text + Image (Multimodal)":
+        st.markdown("**Fusion Weight:**")
+        text_weight = st.slider(
+            "Text vs Image balance:",
+            0.0, 1.0, 0.5, 0.1,
+            help="0.0 = image only, 1.0 = text only, 0.5 = balanced",
+            format="%.1f"
+        )
+        
+        # Show weight interpretation
+        if text_weight < 0.3:
+            weight_desc = "🖼️ Image-focused"
+        elif text_weight > 0.7:
+            weight_desc = "📝 Text-focused"
+        else:
+            weight_desc = "⚖️ Balanced"
+        
+        st.caption(f"Current: {weight_desc} (Text: {text_weight:.1f}, Image: {1-text_weight:.1f})")
     
     # Search button
-    if st.button("🔍 Search & Generate", type="primary"):
-        if query_type == "Text" and not query_text:
+    if st.button("🔍 Search & Generate", type="primary", use_container_width=True):
+        # Validation
+        if query_mode == "Text Only" and not query_text:
             st.warning("Please enter a text query")
             return
-        if query_type == "Image" and query_image is None:
+        if query_mode == "Image Only" and query_image is None:
             st.warning("Please upload an image")
             return
+        if query_mode == "Text + Image (Multimodal)":
+            if not query_text or query_image is None:
+                st.warning("Please provide both text and image for multimodal search")
+                return
         
         # Perform retrieval
         with st.spinner("Searching for similar images..."):
-            if query_type == "Text":
+            if query_mode == "Text Only":
                 results = retriever.search_by_text(query_text, k=top_k)
-            else:
+            elif query_mode == "Image Only":
                 # Save uploaded image temporarily
                 temp_path = "temp_query.jpg"
                 query_image.save(temp_path)
                 results = retriever.search_by_image(temp_path, k=top_k)
                 os.remove(temp_path)
+            else:  # Multimodal
+                # Save uploaded image temporarily
+                temp_path = "temp_query.jpg"
+                query_image.save(temp_path)
+                results = retriever.search_by_multimodal(
+                    query_text=query_text,
+                    query_image=temp_path,
+                    text_weight=text_weight,
+                    k=top_k
+                )
+                os.remove(temp_path)
+        
+        # Display query info
+        st.markdown('<div class="section-header">🔎 Query Information</div>', unsafe_allow_html=True)
+        
+        info_col1, info_col2, info_col3 = st.columns(3)
+        with info_col1:
+            st.metric("Query Mode", query_mode)
+        with info_col2:
+            if query_mode == "Text + Image (Multimodal)":
+                st.metric("Text Weight", f"{text_weight:.1f}")
+            else:
+                st.metric("Results", f"{len(results['results'])}")
+        with info_col3:
+            if query_mode == "Text + Image (Multimodal)":
+                st.metric("Image Weight", f"{1-text_weight:.1f}")
+            else:
+                st.metric("Top-K", top_k)
         
         # Display retrieval results
         st.markdown('<div class="section-header">🖼️ Retrieved Images</div>', unsafe_allow_html=True)
@@ -163,9 +244,12 @@ def main():
                 try:
                     img = Image.open(result['image_path'])
                     st.image(img, use_container_width=True)
-                    st.markdown(f"**Rank {result['rank']}** | "
-                              f"<span class='score-badge'>Score: {result['similarity_score']:.3f}</span>",
-                              unsafe_allow_html=True)
+                    
+                    # Show rank and score
+                    badge_html = f"**Rank {result['rank']}** | <span class='score-badge'>Score: {result['similarity_score']:.3f}</span>"
+                    st.markdown(badge_html, unsafe_allow_html=True)
+                    
+                    # Show captions
                     with st.expander("View captions"):
                         for cap in result['captions']:
                             st.write(f"• {cap}")
@@ -180,7 +264,14 @@ def main():
             st.markdown('<div class="section-header">📄 Generated Description</div>', unsafe_allow_html=True)
             
             with st.spinner("Generating description..."):
-                query_str = query_text if query_type == "Text" else "the uploaded image"
+                # Build query string for context
+                if query_mode == "Text Only":
+                    query_str = query_text
+                elif query_mode == "Image Only":
+                    query_str = "the uploaded image"
+                else:  # Multimodal
+                    query_str = f"{query_text} (with reference image)"
+                
                 context = context_builder.build_context(query_str, all_captions)
                 description = text_gen.generate_from_context(context)
             
@@ -191,7 +282,7 @@ def main():
             st.markdown('<div class="section-header">🎨 Generated Image</div>', unsafe_allow_html=True)
             
             with st.spinner("Generating image... (this may take a while)"):
-                query_str = query_text if query_type == "Text" else ""
+                query_str = query_text if query_mode != "Image Only" else ""
                 img_prompt = context_builder.build_image_generation_prompt(query_str, all_captions)
                 
                 st.info(f"**Prompt:** {img_prompt}")
@@ -206,6 +297,7 @@ def main():
     # Footer
     st.markdown("---")
     st.markdown("**Multimodal RAG System** | COCO + CLIP + FAISS + LLM + Stable Diffusion")
+    st.caption("💡 Tip: Use multimodal mode for best results by combining text description with a reference image!")
 
 
 if __name__ == "__main__":
