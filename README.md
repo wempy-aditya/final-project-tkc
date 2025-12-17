@@ -160,3 +160,6 @@ PR PROGRESS SELANJUTNA
 - LENGKAPI EVALUASI METRIK
 - TAMBAHKAN FITUR MULTIMODAL QUERY
 - CARI API LLM YANG STABIL DAN CEPET
+
+@app.py 
+oke ini kan untuk ui ux nya masih full pake streamlit ya, nah bisa ga ya agar tampilannya lebih fleksibel dan lebih cakep lebih keren lebih kekinian lebih modern, dipisah gitu jadi ngga pake streamlit, mungkin pake html css js tailwind untuk front end nya, tapi back end nya gimana ya, apakah anda bisa membantu, yang best practice aja, sesuai di file app.py yang ada saat ini aja, jangan terlalu aneh"
