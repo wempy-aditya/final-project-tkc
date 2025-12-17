@@ -22,47 +22,161 @@ from src.utils.metrics_calculator import MetricsCalculator
 
 # Page configuration
 st.set_page_config(
-    page_title="Multimodal RAG System",
-    page_icon="🔍",
-    layout="wide"
+    page_title="Multimodal RAG",
+    page_icon="✨",
+    layout="wide",
+    initial_sidebar_state="expanded"
 )
 
-# Custom CSS
+# Custom CSS - Modern & Elegant Theme
 st.markdown("""
 <style>
-    .main-header {
-        font-size: 2.5rem;
-        font-weight: bold;
-        color: #1f77b4;
+    /* Import Fonts */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+    :root {
+        --primary: #4F46E5;
+        --secondary: #10B981;
+        --background: #F9FAFB;
+        --card-bg: #FFFFFF;
+        --text-color: #1F2937;
+        --accent: #818CF8;
+    }
+
+    /* Global Styles */
+    .stApp {
+        background-color: var(--background);
+        font-family: 'Inter', sans-serif;
+        color: var(--text-color);
+    }
+    
+    /* Headings */
+    h1, h2, h3 {
+        color: #111827;
+        font-weight: 700;
+        letter-spacing: -0.025em;
+    }
+
+    /* Custom Header */
+    .main-header-container {
         text-align: center;
+        padding: 2rem 0 3rem 0;
+        background: linear-gradient(135deg, #4F46E5 0%, #7C3AED 100%);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
         margin-bottom: 2rem;
     }
+    .main-title {
+        font-size: 3.5rem;
+        font-weight: 800;
+        margin: 0;
+    }
+    .main-subtitle {
+        font-size: 1.1rem;
+        color: #4B5563;
+        -webkit-text-fill-color: #4B5563;
+        margin-top: 0.5rem;
+    }
+
+    /* Cards & Containers */
+    .css-card {
+        background-color: var(--card-bg);
+        padding: 1.5rem;
+        border-radius: 1rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        margin-bottom: 1.5rem;
+        border: 1px solid #E5E7EB;
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .css-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Section Headers */
     .section-header {
-        font-size: 1.5rem;
-        font-weight: bold;
-        color: #ff7f0e;
-        margin-top: 2rem;
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: #374151;
         margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
     }
-    .result-card {
-        background-color: #f0f2f6;
+    
+    /* Metrics Badge */
+    .metric-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
         padding: 1rem;
+        background: #F3F4F6;
+        border-radius: 0.75rem;
+    }
+    .metric-value {
+        font-size: 1.5rem;
+        font-weight: 700;
+        color: var(--primary);
+    }
+    .metric-label {
+        font-size: 0.875rem;
+        color: #6B7280;
+    }
+
+    /* Badges */
+    .badge {
+        display: inline-block;
+        padding: 0.25rem 0.75rem;
+        border-radius: 9999px;
+        font-size: 0.75rem;
+        font-weight: 600;
+    }
+    .badge-score {
+        background-color: #DBEAFE;
+        color: #1E40AF;
+    }
+    .badge-rank {
+        background-color: #ECEFF1;
+        color: #37474F;
+    }
+
+    /* Custom Button Styling */
+    .stButton > button {
+        background: linear-gradient(135deg, #4F46E5 0%, #4338CA 100%);
+        color: white;
+        border: none;
+        padding: 0.75rem 1.5rem;
+        font-weight: 600;
         border-radius: 0.5rem;
-        margin-bottom: 1rem;
+        width: 100%;
+        transition: all 0.3s ease;
     }
-    .score-badge {
-        background-color: #1f77b4;
-        color: white;
-        padding: 0.25rem 0.5rem;
-        border-radius: 0.25rem;
-        font-weight: bold;
+    .stButton > button:hover {
+        background: linear-gradient(135deg, #4338CA 0%, #3730A3 100%);
+        box-shadow: 0 4px 6px -1px rgba(79, 70, 229, 0.4);
     }
-    .multimodal-badge {
-        background-color: #2ca02c;
-        color: white;
-        padding: 0.25rem 0.5rem;
-        border-radius: 0.25rem;
-        font-weight: bold;
+    
+    /* Inputs */
+    .stTextInput > div > div > input {
+        border-radius: 0.5rem;
+        border: 1px solid #D1D5DB;
+        padding: 0.5rem 1rem;
+    }
+    .stTextInput > div > div > input:focus {
+        border-color: var(--primary);
+        box-shadow: 0 0 0 2px rgba(79, 70, 229, 0.2);
+    }
+    
+    /* Image styles */
+    .result-image {
+        border-radius: 0.75rem;
+        overflow: hidden;
+    }
+    
+    /* Hide Text Decoration regarding links if any */
+    a {
+        text-decoration: none;
     }
 </style>
 """, unsafe_allow_html=True)
@@ -99,12 +213,18 @@ def load_image_generator():
 
 
 def main():
-    # Header
-    st.markdown('<div class="main-header">🔍 Multimodal RAG System</div>', unsafe_allow_html=True)
-    st.markdown("**Retrieve images using text, image, or both simultaneously!**")
+    # Header Section
+    st.markdown("""
+        <div class="main-header-container">
+            <h1 class="main-title">✨ Multimodal RAG</h1>
+            <p class="main-subtitle">Experience the power of Search & Generation across Text & Images</p>
+        </div>
+    """, unsafe_allow_html=True)
     
     # Initialize components
-    retriever = load_retriever()
+    with st.spinner("Initializing System..."):
+        retriever = load_retriever()
+    
     if retriever is None:
         st.error("⚠️ Retriever not initialized. Please run setup first.")
         st.code("python scripts/setup.py")
@@ -114,28 +234,44 @@ def main():
     text_gen = load_text_generator()
     image_gen = load_image_generator()
     
-    # Sidebar configuration
-    st.sidebar.header("⚙️ Configuration")
-    top_k = st.sidebar.slider("Number of results (k)", 1, 10, 5)
-    generate_text = st.sidebar.checkbox("Generate text description", value=True)
-    generate_image = st.sidebar.checkbox("Generate new image", value=False)
+    # Sidebar Configuration
+    with st.sidebar:
+        st.markdown("### ⚙️ Settings")
+        st.info("Configure your search parameters here.")
+        
+        st.markdown("---")
+        top_k = st.slider("Results to Retrieve", 1, 10, 5)
+        
+        st.markdown("### 🛠️ Features")
+        generate_text = st.toggle("Generate Description", value=True)
+        generate_image = st.toggle("Generate New Image", value=False)
+        
+        if generate_image and image_gen is None:
+            st.warning("Image generation not available")
+            generate_image = False
+            
+        st.markdown("---")
+        st.caption("v2.0 • Multimodal AI System")
     
-    if generate_image and image_gen is None:
-        st.sidebar.warning("Image generation not available")
-        generate_image = False
+    # Main Content Area
     
-    # Main content
-    st.markdown('<div class="section-header">📝 Input Query</div>', unsafe_allow_html=True)
+    # --- Input Section ---
+    st.markdown('<div class="css-card">', unsafe_allow_html=True)
+    st.markdown('<div class="section-header">� Start Your Search</div>', unsafe_allow_html=True)
     
-    # Query mode selection
-    query_mode = st.radio(
-        "Query mode:",
-        ["Text Only", "Image Only", "Text + Image (Multimodal)"],
-        horizontal=True,
-        help="Choose how you want to search: text only, image only, or combine both for better results!"
-    )
+    # Query Mode Selection with custom columns for layout
+    col_mode, col_space = st.columns([2, 1])
+    with col_mode:
+        query_mode = st.radio(
+            "Select Search Mode:",
+            ["Text Only", "Image Only", "Text + Image (Multimodal)"],
+            horizontal=True,
+            help="Choose your input modality."
+        )
     
-    # Input fields in columns
+    st.markdown("<br>", unsafe_allow_html=True)
+    
+    # Dynamic Input Fields
     col1, col2 = st.columns(2)
     
     query_text = None
@@ -143,81 +279,84 @@ def main():
     uploaded_file = None
     
     with col1:
-        st.markdown("**Text Query:**")
+        disabled_text = query_mode == "Image Only"
+        st.markdown(f"**Text Query** {'(Disabled)' if disabled_text else ''}")
         query_text = st.text_input(
-            "Enter your text query:",
-            placeholder="e.g., a dog playing in the park",
-            disabled=(query_mode == "Image Only"),
+            "text_query",
+            placeholder="Describe what you are looking for...",
+            disabled=disabled_text,
             label_visibility="collapsed"
         )
     
     with col2:
-        st.markdown("**Image Query:**")
+        disabled_img = query_mode == "Text Only"
+        st.markdown(f"**Reference Image** {'(Disabled)' if disabled_img else ''}")
         uploaded_file = st.file_uploader(
-            "Upload an image:",
+            "image_query",
             type=['jpg', 'jpeg', 'png'],
-            disabled=(query_mode == "Text Only"),
+            disabled=disabled_img,
             label_visibility="collapsed"
         )
         if uploaded_file:
+            st.image(uploaded_file, caption="Preview", width=150)
             query_image = Image.open(uploaded_file)
-            st.image(query_image, caption="Query Image", width=250)
-    
-    # Multimodal weight slider (only for multimodal mode)
+
+    # Multimodal Controls
     text_weight = 0.5
     if query_mode == "Text + Image (Multimodal)":
-        st.markdown("**Fusion Weight:**")
-        text_weight = st.slider(
-            "Text vs Image balance:",
-            0.0, 1.0, 0.5, 0.1,
-            help="0.0 = image only, 1.0 = text only, 0.5 = balanced",
-            format="%.1f"
-        )
+        st.markdown("---")
+        st.markdown("**⚖️ Modality Balance**")
         
-        # Show weight interpretation
-        if text_weight < 0.3:
-            weight_desc = "🖼️ Image-focused"
-        elif text_weight > 0.7:
-            weight_desc = "📝 Text-focused"
-        else:
-            weight_desc = "⚖️ Balanced"
-        
-        st.caption(f"Current: {weight_desc} (Text: {text_weight:.1f}, Image: {1-text_weight:.1f})")
+        w_col1, w_col2 = st.columns([3, 1])
+        with w_col1:
+            text_weight = st.slider(
+                "Text vs Image balance",
+                0.0, 1.0, 0.5, 0.1,
+                label_visibility="collapsed"
+            )
+        with w_col2:
+            if text_weight < 0.3:
+                st.markdown("🖼️ **Image Heavy**")
+            elif text_weight > 0.7:
+                st.markdown("📝 **Text Heavy**")
+            else:
+                st.markdown("⚖️ **Balanced**")
     
-    # Search button
-    if st.button("🔍 Search & Generate", type="primary", use_container_width=True):
-        # Validation
+    st.markdown("<br>", unsafe_allow_html=True)
+    
+    # Search Action
+    if st.button("� Run Search & Generate", type="primary"):
+        # Validation checks
         if query_mode == "Text Only" and not query_text:
-            st.warning("Please enter a text query")
+            st.warning("Please enter a text query to proceed.")
+            st.markdown('</div>', unsafe_allow_html=True) # Close card
             return
         if query_mode == "Image Only" and query_image is None:
-            st.warning("Please upload an image")
+            st.warning("Please upload an image to proceed.")
+            st.markdown('</div>', unsafe_allow_html=True) # Close card
             return
-        if query_mode == "Text + Image (Multimodal)":
-            if not query_text or query_image is None:
-                st.warning("Please provide both text and image for multimodal search")
-                return
+        if query_mode == "Text + Image (Multimodal)" and (not query_text or query_image is None):
+            st.warning("Please provide both text and image for multimodal search.")
+            st.markdown('</div>', unsafe_allow_html=True) # Close card
+            return
+            
+        # --- Processing ---
+        st.markdown('</div>', unsafe_allow_html=True) # Close Input Card
         
-        # Initialize metrics calculator
         calc = MetricsCalculator()
-        
-        # Start total timer
         total_start = time.time()
         
-        # Perform retrieval with timing
+        # 1. Retrieval
         retrieval_start = time.time()
-        # Perform retrieval
-        with st.spinner("Searching for similar images..."):
+        with st.spinner("🧠 Analyzing and retrieving..."):
             if query_mode == "Text Only":
                 results = retriever.search_by_text(query_text, k=top_k)
             elif query_mode == "Image Only":
-                # Save uploaded image temporarily
                 temp_path = "temp_query.jpg"
                 query_image.save(temp_path)
                 results = retriever.search_by_image(temp_path, k=top_k)
                 os.remove(temp_path)
-            else:  # Multimodal
-                # Save uploaded image temporarily
+            else:
                 temp_path = "temp_query.jpg"
                 query_image.save(temp_path)
                 results = retriever.search_by_multimodal(
@@ -229,175 +368,145 @@ def main():
                 os.remove(temp_path)
         
         retrieval_time = time.time() - retrieval_start
-        
-        # Calculate retrieval metrics
         retrieval_metrics = calc.calculate_retrieval_metrics(results)
         
-        # Display query info
-        st.markdown('<div class="section-header">🔎 Query Information</div>', unsafe_allow_html=True)
+        # --- Results Display ---
+        st.markdown('<div class="section-header">🏆 Top Results</div>', unsafe_allow_html=True)
         
-        info_col1, info_col2, info_col3 = st.columns(3)
-        with info_col1:
-            st.metric("Query Mode", query_mode)
-        with info_col2:
-            if query_mode == "Text + Image (Multimodal)":
-                st.metric("Text Weight", f"{text_weight:.1f}")
-            else:
-                st.metric("Results", f"{len(results['results'])}")
-        with info_col3:
-            if query_mode == "Text + Image (Multimodal)":
-                st.metric("Image Weight", f"{1-text_weight:.1f}")
-            else:
-                st.metric("Top-K", top_k)
-        
-        # Display retrieval results
-        st.markdown('<div class="section-header">🖼️ Retrieved Images</div>', unsafe_allow_html=True)
-        
+        # Grid layout for results
         cols = st.columns(min(3, top_k))
         for idx, result in enumerate(results['results']):
             with cols[idx % 3]:
+                # Individual Result Card
+                st.markdown('<div class="css-card" style="padding: 1rem;">', unsafe_allow_html=True)
+                
                 try:
                     img = Image.open(result['image_path'])
-                    st.image(img, use_container_width=True)
+                    st.image(img, use_container_width=True, clamp=True)
                     
-                    # Show rank and score
-                    badge_html = f"**Rank {result['rank']}** | <span class='score-badge'>Score: {result['similarity_score']:.3f}</span>"
-                    st.markdown(badge_html, unsafe_allow_html=True)
+                    st.markdown(f"""
+                        <div style="margin-top: 0.5rem; display: flex; justify-content: space-between; align-items: center;">
+                            <span class="badge badge-rank">Rank #{result['rank']}</span>
+                            <span class="badge badge-score">Sim: {result['similarity_score']:.3f}</span>
+                        </div>
+                    """, unsafe_allow_html=True)
                     
-                    # Show captions
-                    with st.expander("View captions"):
-                        for cap in result['captions']:
-                            st.write(f"• {cap}")
+                    with st.expander("📝 View Captions"):
+                         for cap in result['captions']:
+                            st.markdown(f"<small>• {cap}</small>", unsafe_allow_html=True)
+                            
                 except Exception as e:
-                    st.error(f"Error loading image: {e}")
-        
-        # Extract captions for RAG
+                    st.error("Image load error")
+                
+                st.markdown('</div>', unsafe_allow_html=True) # Close card
+
+        # --- Generation Phase ---
         all_captions = retriever.get_captions_from_results(results)
-        
-        # Initialize timing variables
         text_gen_time = 0.0
         image_gen_time = 0.0
         text_metrics = {}
         
-        # Generate text description
+        # Two columns for generation outputs if both active
+        gen_col1, gen_col2 = st.columns(2 if (generate_text and generate_image) else 1)
+        
+        # Text Generation
         if generate_text and text_gen:
-            st.markdown('<div class="section-header">📄 Generated Description</div>', unsafe_allow_html=True)
-            
-            text_gen_start = time.time()
-            with st.spinner("Generating description..."):
-                # Build query string for context
-                if query_mode == "Text Only":
-                    query_str = query_text
-                elif query_mode == "Image Only":
-                    query_str = "the uploaded image"
-                else:  # Multimodal
-                    query_str = f"{query_text} (with reference image)"
+            with gen_col1:
+                st.markdown('<div class="css-card">', unsafe_allow_html=True)
+                st.markdown('<div class="section-header">🤖 AI Synthesis</div>', unsafe_allow_html=True)
                 
-                context = context_builder.build_context(query_str, all_captions)
-                description = text_gen.generate_from_context(context)
-            
-            text_gen_time = time.time() - text_gen_start
-            
-            # Calculate text metrics
-            text_metrics = calc.calculate_text_metrics(description)
-            
-            st.markdown(f'<div class="result-card">{description}</div>', unsafe_allow_html=True)
-        
-        # Generate new image
+                text_gen_start = time.time()
+                with st.spinner("Writing description..."):
+                    if query_mode == "Text Only":
+                        query_str = query_text
+                    elif query_mode == "Image Only":
+                        query_str = "the uploaded image"
+                    else:
+                        query_str = f"{query_text} (with reference image)"
+                    
+                    context = context_builder.build_context(query_str, all_captions)
+                    description = text_gen.generate_from_context(context)
+                
+                text_gen_time = time.time() - text_gen_start
+                text_metrics = calc.calculate_text_metrics(description)
+                
+                st.markdown(f"""
+                    <div style="background: #F3F4F6; padding: 1rem; border-radius: 0.5rem; font-style: italic; color: #4B5563;">
+                        "{description}"
+                    </div>
+                """, unsafe_allow_html=True)
+                st.markdown('</div>', unsafe_allow_html=True)
+
+        # Image Generation
         if generate_image and image_gen:
-            st.markdown('<div class="section-header">🎨 Generated Image</div>', unsafe_allow_html=True)
-            
-            image_gen_start = time.time()
-            with st.spinner("Generating image... (this may take a while)"):
-                query_str = query_text if query_mode != "Image Only" else ""
-                img_prompt = context_builder.build_image_generation_prompt(query_str, all_captions)
+            target_col = gen_col2 if (generate_text and generate_image) else gen_col1
+            with target_col:
+                st.markdown('<div class="css-card">', unsafe_allow_html=True)
+                st.markdown('<div class="section-header">🎨 Dreamed Image</div>', unsafe_allow_html=True)
                 
-                st.info(f"**Prompt:** {img_prompt}")
+                image_gen_start = time.time()
+                with st.spinner("Dreaming up visual..."):
+                    query_str = query_text if query_mode != "Image Only" else ""
+                    img_prompt = context_builder.build_image_generation_prompt(query_str, all_captions)
+                    
+                    with st.expander("View Prompt"):
+                        st.caption(img_prompt)
+                    
+                    generated_img = image_gen.txt2img(img_prompt)
+                    
+                    if generated_img:
+                        st.image(generated_img, use_container_width=True)
+                    else:
+                        st.error("Generation failed.")
                 
-                generated_img = image_gen.txt2img(img_prompt)
-                
-                if generated_img:
-                    st.image(generated_img, caption="Generated Image", width=512)
-                else:
-                    st.error("Failed to generate image. Check your configuration.")
-            
-            image_gen_time = time.time() - image_gen_start
-        
-        # Calculate total time
+                image_gen_time = time.time() - image_gen_start
+                st.markdown('</div>', unsafe_allow_html=True)
+
         total_time = time.time() - total_start
         
-        # Display Metrics & Performance
-        st.markdown('<div class="section-header">📊 Metrics & Performance</div>', unsafe_allow_html=True)
+        # --- Metrics Dashboard ---
+        st.markdown('<div class="section-header">📊 Performance Analytics</div>', unsafe_allow_html=True)
         
-        with st.expander("📈 View Detailed Metrics", expanded=True):
-            metric_col1, metric_col2, metric_col3 = st.columns(3)
+        with st.expander("Show Detailed Metrics", expanded=True):
+            m1, m2, m3 = st.columns(3)
             
-            # Retrieval Metrics
-            with metric_col1:
-                st.markdown("**🔍 Retrieval Quality**")
-                st.metric("Avg Similarity", f"{retrieval_metrics['avg_similarity']:.3f}")
-                st.metric("Diversity", f"{retrieval_metrics['diversity']:.1%}")
-                st.metric("Score Range", f"{retrieval_metrics['min_similarity']:.3f} - {retrieval_metrics['max_similarity']:.3f}")
-                st.metric("Std Deviation", f"{retrieval_metrics['std_similarity']:.3f}")
-            
-            # Generation Metrics
-            with metric_col2:
-                st.markdown("**📝 Generation Quality**")
-                if text_metrics:
-                    st.metric("Word Count", text_metrics['word_count'])
-                    st.metric("Sentence Count", text_metrics['sentence_count'])
-                    st.metric("Vocabulary Richness", f"{text_metrics['vocabulary_richness']:.1%}")
-                    st.metric("Avg Word Length", f"{text_metrics['avg_word_length']:.1f} chars")
-                else:
-                    st.caption("_Text generation not enabled_")
-            
-            # Performance Metrics
-            with metric_col3:
-                st.markdown("**⚡ Performance**")
-                st.metric("Retrieval Time", calc.format_time(retrieval_time))
-                if text_gen_time > 0:
-                    st.metric("Text Gen Time", calc.format_time(text_gen_time))
-                if image_gen_time > 0:
-                    st.metric("Image Gen Time", calc.format_time(image_gen_time))
-                st.metric("**Total Time**", calc.format_time(total_time))
-            
-            # Metrics interpretation
-            st.markdown("---")
-            st.markdown("**📖 Metrics Interpretation:**")
-            
-            interp_col1, interp_col2 = st.columns(2)
-            
-            with interp_col1:
-                st.markdown("**Retrieval:**")
-                avg_sim_quality = calc.get_metric_interpretation('avg_similarity', retrieval_metrics['avg_similarity'])
-                div_quality = calc.get_metric_interpretation('diversity', retrieval_metrics['diversity'])
+            with m1:
+                st.markdown('<div class="metric-container">', unsafe_allow_html=True)
+                st.markdown('<div class="metric-label">Avg Similarity</div>', unsafe_allow_html=True)
+                st.markdown(f'<div class="metric-value">{retrieval_metrics["avg_similarity"]:.3f}</div>', unsafe_allow_html=True)
+                st.markdown(f'<small style="color:#6B7280">Diversity: {retrieval_metrics["diversity"]:.1%}</small>', unsafe_allow_html=True)
+                st.markdown('</div>', unsafe_allow_html=True)
                 
-                if avg_sim_quality:
-                    st.caption(f"• Similarity: {avg_sim_quality} ({retrieval_metrics['avg_similarity']:.3f})")
-                if div_quality:
-                    st.caption(f"• Diversity: {div_quality} ({retrieval_metrics['diversity']:.1%})")
-            
-            with interp_col2:
+            with m2:
                 if text_metrics:
-                    st.markdown("**Generation:**")
-                    vocab_quality = calc.get_metric_interpretation('vocabulary_richness', text_metrics['vocabulary_richness'])
-                    
-                    if vocab_quality:
-                        st.caption(f"• Vocabulary: {vocab_quality} ({text_metrics['vocabulary_richness']:.1%})")
-                    
-                    # Word count interpretation
-                    if 40 <= text_metrics['word_count'] <= 100:
-                        st.caption(f"• Length: Good ({text_metrics['word_count']} words)")
-                    elif text_metrics['word_count'] < 40:
-                        st.caption(f"• Length: Short ({text_metrics['word_count']} words)")
-                    else:
-                        st.caption(f"• Length: Long ({text_metrics['word_count']} words)")
-    
+                    st.markdown('<div class="metric-container">', unsafe_allow_html=True)
+                    st.markdown('<div class="metric-label">Vocabulary Richness</div>', unsafe_allow_html=True)
+                    st.markdown(f'<div class="metric-value">{text_metrics["vocabulary_richness"]:.1%}</div>', unsafe_allow_html=True)
+                    st.markdown(f'<small style="color:#6B7280">{text_metrics["word_count"]} words</small>', unsafe_allow_html=True)
+                    st.markdown('</div>', unsafe_allow_html=True)
+                else:
+                    st.info("No text generation metrics")
+            
+            with m3:
+                st.markdown('<div class="metric-container">', unsafe_allow_html=True)
+                st.markdown('<div class="metric-label">Total Latency</div>', unsafe_allow_html=True)
+                st.markdown(f'<div class="metric-value">{total_time:.2f}s</div>', unsafe_allow_html=True)
+                st.markdown(f'<small style="color:#6B7280">Ret: {retrieval_time:.2f}s | Gen: {text_gen_time+image_gen_time:.2f}s</small>', unsafe_allow_html=True)
+                st.markdown('</div>', unsafe_allow_html=True)
+
+    else:
+        # Default empty state or welcome message if needed, 
+        # but the input card is already visible above.
+        pass
+
     # Footer
     st.markdown("---")
-    st.markdown("**Multimodal RAG System** | COCO + CLIP + FAISS + LLM + Stable Diffusion")
-    st.caption("💡 Tip: Use multimodal mode for best results by combining text description with a reference image!")
-
+    st.markdown(
+        "<div style='text-align: center; color: #9CA3AF; font-size: 0.875rem;'>"
+        "Built with ❤️ using <b>COCO</b>, <b>CLIP</b>, <b>FAISS</b> & <b>Stable Diffusion</b>"
+        "</div>", 
+        unsafe_allow_html=True
+    )
 
 if __name__ == "__main__":
     main()
