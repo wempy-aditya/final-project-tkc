@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Multimodal RAG System</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Custom Tailwind Config -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#2563EB',
+                        secondary: '#64748B',
+                        accent: '#0EA5E9',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="css/style.css">
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body class="bg-gray-50 min-h-screen">
+
+    <!-- Header - Clean with subtle accent -->
+    <header class="bg-white border-b-2 border-blue-500 shadow-sm">
+        <div class="container mx-auto px-4 py-6">
+            <div class="flex items-center justify-between">
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-900">Multimodal RAG System</h1>
+                    <p class="text-sm text-gray-600 mt-1">AI-Powered Search & Generation</p>
+                </div>
+                <div class="flex items-center gap-3">
+                    <!-- Dark Mode Toggle -->
+                    <button onclick="toggleDarkMode()" id="theme-toggle"
+                        class="p-2 rounded-lg border border-gray-200 hover:bg-gray-100 dark:border-gray-700 dark:hover:bg-gray-800 transition">
+                        <i class="fas fa-moon text-gray-700 dark:text-gray-300" id="theme-icon"></i>
+                    </button>
+
+                    <div
+                        class="flex items-center gap-2 px-4 py-2 bg-blue-50 dark:bg-gray-800 rounded-lg border border-blue-200 dark:border-gray-700">
+                        <div id="status-indicator" class="flex items-center gap-2 text-sm">
+                            <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
+                            <span class="text-gray-700 font-medium">Online</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <div class="container mx-auto px-4 py-6">
+        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+
+            <!-- Sidebar - Settings & History -->
+            <aside class="lg:col-span-1 space-y-6">
+
+                <!-- Settings Card -->
+                <div class="bg-white rounded-lg shadow-sm border-l-4 border-blue-500">
+                    <div class="px-5 py-4 bg-gradient-to-r from-blue-50 to-white border-b border-gray-100">
+                        <h2 class="text-base font-semibold text-gray-900 flex items-center gap-2">
+                            <i class="fas fa-cog text-blue-600"></i> Settings
+                        </h2>
+                    </div>
+                    <div class="p-5 space-y-4">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Results (Top-K)
+                            </label>
+                            <input type="range" id="top-k-slider" min="1" max="10" value="5" class="w-full">
+                            <div class="text-center mt-1 text-sm font-semibold text-blue-600" id="top-k-value">5</div>
+                        </div>
+
+                        <div class="space-y-2.5">
+                            <label
+                                class="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded transition">
+                                <input type="checkbox" id="generate-text-toggle" checked
+                                    class="w-4 h-4 text-blue-600 rounded border-gray-300">
+                                <span class="text-sm text-gray-700">Generate Description</span>
+                            </label>
+
+                            <label
+                                class="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded transition">
+                                <input type="checkbox" id="generate-image-toggle"
+                                    class="w-4 h-4 text-blue-600 rounded border-gray-300">
+                                <span class="text-sm text-gray-700">Generate Image</span>
+                            </label>
+
+                            <label
+                                class="flex items-center gap-2 cursor-pointer hover:bg-gray-50 p-2 rounded transition">
+                                <input type="checkbox" id="auto-save-toggle" checked
+                                    class="w-4 h-4 text-blue-600 rounded border-gray-300">
+                                <span class="text-sm text-gray-700">Auto-save History</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- History Card -->
+                <div class="bg-white rounded-lg shadow-sm border-l-4 border-purple-500">
+                    <div
+                        class="px-5 py-4 bg-gradient-to-r from-purple-50 to-white border-b border-gray-100 flex items-center justify-between">
+                        <h2 class="text-base font-semibold text-gray-900 flex items-center gap-2">
+                            <i class="fas fa-history text-purple-600"></i> History
+                        </h2>
+                        <button onclick="loadHistory()" class="text-purple-600 hover:text-purple-700 transition">
+                            <i class="fas fa-sync-alt text-sm"></i>
+                        </button>
+                    </div>
+                    <div class="p-4 max-h-96 overflow-y-auto" id="history-list">
+                        <div class="text-center text-gray-500 py-8">
+                            <i class="fas fa-clock text-3xl mb-2 text-gray-400"></i>
+                            <p class="text-sm">No history yet</p>
+                        </div>
+                    </div>
+
+                    <!-- Statistics -->
+                    <div class="border-t border-gray-200 px-5 py-3 bg-gradient-to-r from-purple-50 to-white">
+                        <div class="text-xs text-gray-600 space-y-1">
+                            <div class="flex justify-between">
+                                <span>Total Queries:</span>
+                                <span class="font-semibold text-purple-600" id="stat-total">0</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>Avg Similarity:</span>
+                                <span class="font-semibold text-purple-600" id="stat-similarity">0.000</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </aside>
+
+            <!-- Main Content -->
+            <main class="lg:col-span-3 space-y-6">
+
+                <!-- Search Form Card -->
+                <div class="bg-white rounded-lg shadow-sm border-l-4 border-cyan-500">
+                    <div class="px-6 py-4 bg-gradient-to-r from-cyan-50 to-white border-b border-gray-100">
+                        <h2 class="text-base font-semibold text-gray-900 flex items-center gap-2">
+                            <i class="fas fa-search text-cyan-600"></i> Search
+                        </h2>
+                    </div>
+                    <div class="p-6">
+
+                        <!-- Mode Selector -->
+                        <div class="mb-5">
+                            <label class="block text-sm font-medium text-gray-700 mb-3">Search Mode</label>
+                            <div class="grid grid-cols-3 gap-3">
+                                <button onclick="setMode('text')"
+                                    class="mode-btn mode-active px-4 py-2.5 rounded-lg text-sm font-medium"
+                                    data-mode="text">
+                                    <i class="fas fa-font mr-1"></i> Text
+                                </button>
+                                <button onclick="setMode('image')"
+                                    class="mode-btn px-4 py-2.5 rounded-lg text-sm font-medium" data-mode="image">
+                                    <i class="fas fa-image mr-1"></i> Image
+                                </button>
+                                <button onclick="setMode('multimodal')"
+                                    class="mode-btn px-4 py-2.5 rounded-lg text-sm font-medium" data-mode="multimodal">
+                                    <i class="fas fa-layer-group mr-1"></i> Both
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Input Fields -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+                            <!-- Text Input -->
+                            <div id="text-input-container">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    Text Query
+                                </label>
+                                <input type="text" id="text-query" placeholder="Describe what you're looking for..."
+                                    class="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm">
+                            </div>
+
+                            <!-- Image Upload -->
+                            <div id="image-input-container">
+                                <label class="block text-sm font-medium text-gray-700 mb-2">
+                                    Image Query
+                                </label>
+                                <div class="relative">
+                                    <input type="file" id="image-upload" accept="image/*" class="hidden"
+                                        onchange="handleImageUpload(event)">
+                                    <button onclick="document.getElementById('image-upload').click()"
+                                        class="w-full px-4 py-2.5 border-2 border-dashed border-gray-300 rounded-lg hover:border-blue-500 hover:bg-blue-50 transition text-gray-600 hover:text-blue-600 text-sm">
+                                        <i class="fas fa-upload mr-2"></i>
+                                        Click to upload
+                                    </button>
+                                </div>
+                                <div id="image-preview" class="mt-2 hidden">
+                                    <img id="preview-img"
+                                        class="w-full h-32 object-cover rounded-lg border-2 border-blue-200">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Multimodal Weight Slider -->
+                        <div id="weight-slider-container" class="mb-5 hidden">
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                Text vs Image Balance
+                            </label>
+                            <input type="range" id="text-weight-slider" min="0" max="1" step="0.1" value="0.5"
+                                class="w-full">
+                            <div class="flex justify-between text-xs text-gray-600 mt-1">
+                                <span><i class="fas fa-image text-purple-500"></i> Image Heavy</span>
+                                <span id="weight-value" class="font-medium text-blue-600">Balanced (0.5)</span>
+                                <span><i class="fas fa-font text-cyan-500"></i> Text Heavy</span>
+                            </div>
+                        </div>
+
+                        <!-- Search Button -->
+                        <button onclick="performSearch()" id="search-btn"
+                            class="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-semibold py-3 px-6 rounded-lg transition-all shadow-md hover:shadow-lg">
+                            <i class="fas fa-rocket mr-2"></i> Search & Generate
+                        </button>
+
+                    </div>
+                </div>
+
+                <!-- Loading Indicator -->
+                <div id="loading-indicator" class="hidden">
+                    <div class="bg-white rounded-lg shadow-sm border border-gray-200 p-8">
+                        <div class="flex flex-col items-center justify-center">
+                            <div class="animate-spin rounded-full h-12 w-12 border-b-3 border-blue-600 mb-3"></div>
+                            <p class="text-gray-600 text-sm font-medium" id="loading-text">Processing your request...
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Results Section -->
+                <div id="results-section" class="hidden space-y-6">
+                    <!-- Will be populated by JavaScript -->
+                </div>
+
+            </main>
+
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast"
+        class="fixed bottom-4 right-4 bg-white rounded-lg shadow-lg border-l-4 border-blue-500 p-4 transform translate-y-full transition-transform duration-300 max-w-sm">
+        <div class="flex items-center gap-3">
+            <div id="toast-icon"></div>
+            <div id="toast-message" class="text-sm font-medium text-gray-800"></div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/api.js"></script>
+    <script src="js/components.js"></script>
+    <script src="js/app.js"></script>
+
+</body>
+
+</html>
