@@ -12,6 +12,7 @@
     <!-- Custom Tailwind Config -->
     <script>
         tailwind.config = {
+            darkMode: 'class', // Enable class-based dark mode
             theme: {
                 extend: {
                     colors: {
@@ -31,35 +32,37 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
 
-<body class="bg-gradient-to-br from-gray-50 to-blue-50 dark:from-gray-900 dark:to-gray-800 min-h-screen">
+<body>
 
-    <!-- Header - Friendly & Welcoming -->
-    <header class="bg-white dark:bg-gray-900 border-b-2 border-blue-500 shadow-sm">
-        <div class="container mx-auto px-4 py-6">
+    <!-- Header -->
+    <header class="bg-card-custom border-b border-[var(--border-color)] shadow-sm sticky top-0 z-50 transition-colors">
+        <div class="container mx-auto px-4 py-4">
             <div class="flex items-center justify-between">
                 <div class="flex items-center gap-4">
                     <div
-                        class="w-12 h-12 bg-gradient-to-br from-blue-500 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg">
-                        <i class="fas fa-search text-white text-xl"></i>
+                        class="w-10 h-10 md:w-12 md:h-12 bg-gradient-to-br from-blue-600 to-cyan-500 rounded-xl flex items-center justify-center shadow-lg text-white">
+                        <i class="fas fa-search text-lg md:text-xl"></i>
                     </div>
                     <div>
-                        <h1 class="text-2xl font-bold text-gray-900 dark:text-white">Smart Image Search</h1>
-                        <p class="text-sm text-gray-600 dark:text-gray-400">Find images using text, photos, or both!</p>
+                        <h1 class="text-xl md:text-2xl font-bold tracking-tight text-[var(--text-main)]">Smart Image
+                            Search</h1>
+                        <p class="text-xs md:text-sm text-[var(--text-muted)]">Find images using text, photos, or both!
+                        </p>
                     </div>
                 </div>
                 <div class="flex items-center gap-3">
                     <!-- Dark Mode Toggle -->
                     <button onclick="toggleDarkMode()" id="theme-toggle"
-                        class="p-2.5 rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 dark:hover:bg-gray-700 transition"
+                        class="p-2.5 rounded-lg border border-[var(--border-color)] hover:bg-[var(--bg-hover)] text-[var(--text-muted)] transition-colors"
                         title="Toggle dark mode">
-                        <i class="fas fa-moon text-gray-700 dark:text-yellow-400" id="theme-icon"></i>
+                        <i class="fas fa-moon" id="theme-icon"></i>
                     </button>
 
                     <div
-                        class="hidden md:flex items-center gap-2 px-4 py-2 bg-green-50 dark:bg-green-900/30 rounded-lg border border-green-200 dark:border-green-800">
-                        <div id="status-indicator" class="flex items-center gap-2 text-sm">
+                        class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--bg-hover)] border border-[var(--border-color)]">
+                        <div id="status-indicator" class="flex items-center gap-2 text-xs font-medium">
                             <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                            <span class="text-green-700 dark:text-green-400 font-medium">Ready</span>
+                            <span class="text-green-600 dark:text-green-400">Ready</span>
                         </div>
                     </div>
                 </div>
@@ -71,69 +74,58 @@
     <div class="container mx-auto px-4 py-8">
         <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
 
-            <!-- Sidebar - User-Friendly Controls -->
+            <!-- Sidebar -->
             <aside class="lg:col-span-1 space-y-6">
 
                 <!-- Quick Settings -->
-                <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border-l-4 border-blue-500 overflow-hidden">
-                    <div
-                        class="px-5 py-4 bg-gradient-to-r from-blue-50 to-white dark:from-blue-900/20 dark:to-transparent border-b border-gray-100 dark:border-gray-800">
-                        <h2 class="text-base font-semibold text-gray-900 dark:text-white flex items-center gap-2">
-                            <i class="fas fa-sliders-h text-blue-600"></i> Quick Settings
+                <div class="card">
+                    <div class="px-5 py-4 gradient-header-blue">
+                        <h2 class="text-base font-semibold text-[var(--text-main)] flex items-center gap-2">
+                            <i class="fas fa-sliders-h text-blue-500"></i> Quick Settings
                         </h2>
-                        <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Customize your search</p>
+                        <p class="text-xs text-[var(--text-muted)] mt-1">Customize your search</p>
                     </div>
                     <div class="p-5 space-y-5">
                         <div>
                             <div class="flex items-center justify-between mb-2">
-                                <label class="text-sm font-medium text-gray-700 dark:text-gray-300">
-                                    How many results?
+                                <label class="text-sm font-medium text-[var(--text-main)]">
+                                    Result Count
                                 </label>
-                                <span class="text-sm font-bold text-blue-600 dark:text-blue-400"
-                                    id="top-k-value">5</span>
+                                <span class="text-sm font-bold text-blue-500" id="top-k-value">5</span>
                             </div>
                             <input type="range" id="top-k-slider" min="1" max="10" value="5" class="w-full">
-                            <div class="flex justify-between text-xs text-gray-500 dark:text-gray-400 mt-1">
-                                <span>Less</span>
-                                <span>More</span>
+                            <div class="flex justify-between text-xs text-[var(--text-muted)] mt-1">
+                                <span>1</span>
+                                <span>10</span>
                             </div>
                         </div>
 
-                        <div class="space-y-3 pt-3 border-t border-gray-100 dark:border-gray-800">
-                            <p class="text-xs font-medium text-gray-600 dark:text-gray-400 uppercase tracking-wide">AI
-                                Features</p>
+                        <div class="space-y-3 pt-3 border-t border-[var(--border-color)]">
+                            <p class="text-xs font-medium text-[var(--text-muted)] uppercase tracking-wide">Features</p>
 
                             <label
-                                class="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-blue-50 dark:hover:bg-blue-900/20 transition">
-                                <input type="checkbox" id="generate-text-toggle" checked
-                                    class="w-5 h-5 text-blue-600 rounded border-gray-300">
+                                class="flex items-center gap-3 cursor-pointer group p-2 rounded-lg hover:bg-[var(--bg-hover)] transition-colors">
+                                <input type="checkbox" id="generate-text-toggle" checked>
                                 <div class="flex-1">
-                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300 block">Write
+                                    <span class="text-sm font-medium text-[var(--text-main)] block">Write
                                         Description</span>
-                                    <span class="text-xs text-gray-500 dark:text-gray-400">AI explains the
-                                        results</span>
                                 </div>
                             </label>
 
                             <label
-                                class="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-purple-50 dark:hover:bg-purple-900/20 transition">
-                                <input type="checkbox" id="generate-image-toggle"
-                                    class="w-5 h-5 text-purple-600 rounded border-gray-300">
+                                class="flex items-center gap-3 cursor-pointer group p-2 rounded-lg hover:bg-[var(--bg-hover)] transition-colors">
+                                <input type="checkbox" id="generate-image-toggle">
                                 <div class="flex-1">
-                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300 block">Create New
+                                    <span class="text-sm font-medium text-[var(--text-main)] block">Create New
                                         Image</span>
-                                    <span class="text-xs text-gray-500 dark:text-gray-400">Generate similar image</span>
                                 </div>
                             </label>
 
                             <label
-                                class="flex items-center gap-3 cursor-pointer group p-3 rounded-lg hover:bg-green-50 dark:hover:bg-green-900/20 transition">
-                                <input type="checkbox" id="auto-save-toggle" checked
-                                    class="w-5 h-5 text-green-600 rounded border-gray-300">
+                                class="flex items-center gap-3 cursor-pointer group p-2 rounded-lg hover:bg-[var(--bg-hover)] transition-colors">
+                                <input type="checkbox" id="auto-save-toggle" checked>
                                 <div class="flex-1">
-                                    <span class="text-sm font-medium text-gray-700 dark:text-gray-300 block">Save
-                                        Searches</span>
-                                    <span class="text-xs text-gray-500 dark:text-gray-400">Auto-save to history</span>
+                                    <span class="text-sm font-medium text-[var(--text-main)] block">Save History</span>
                                 </div>
                             </label>
                         </div>
@@ -141,43 +133,35 @@
                 </div>
 
                 <!-- Search History -->
-                <div
-                    class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border-l-4 border-purple-500 overflow-hidden">
-                    <div
-                        class="px-5 py-4 bg-gradient-to-r from-purple-50 to-white dark:from-purple-900/20 dark:to-transparent border-b border-gray-100 dark:border-gray-800 flex items-center justify-between">
+                <div class="card border-l-4" style="border-left-color: var(--purple);">
+                    <div class="px-5 py-4 gradient-header-purple flex items-center justify-between">
                         <div>
-                            <h2 class="text-base font-semibold text-gray-900 dark:text-white flex items-center gap-2">
-                                <i class="fas fa-history text-purple-600"></i> Recent Searches
+                            <h2 class="text-base font-semibold text-[var(--text-main)] flex items-center gap-2">
+                                <i class="fas fa-history text-purple-500"></i> Recent
                             </h2>
-                            <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">Your search history</p>
                         </div>
-                        <button onclick="loadHistory()"
-                            class="text-purple-600 hover:text-purple-700 dark:text-purple-400 transition"
+                        <button onclick="loadHistory()" class="text-purple-500 hover:text-purple-600 transition"
                             title="Refresh">
                             <i class="fas fa-sync-alt text-sm"></i>
                         </button>
                     </div>
-                    <div class="p-4 max-h-80 overflow-y-auto" id="history-list">
-                        <div class="text-center text-gray-500 dark:text-gray-400 py-8">
-                            <i class="fas fa-clock text-4xl mb-3 text-gray-300 dark:text-gray-600"></i>
-                            <p class="text-sm font-medium">No searches yet</p>
-                            <p class="text-xs mt-1">Start searching to see history</p>
+                    <div class="p-4 max-h-80 overflow-y-auto custom-scrollbar" id="history-list">
+                        <div class="text-center py-8">
+                            <i class="fas fa-clock text-4xl mb-3 text-[var(--border-color)]"></i>
+                            <p class="text-sm font-medium text-[var(--text-muted)]">No searches yet</p>
                         </div>
                     </div>
 
                     <!-- Statistics -->
-                    <div
-                        class="border-t border-gray-200 dark:border-gray-800 px-5 py-3 bg-gradient-to-r from-purple-50/50 to-white dark:from-purple-900/10 dark:to-transparent">
+                    <div class="border-t border-[var(--border-color)] px-5 py-3 bg-[var(--bg-hover)]">
                         <div class="grid grid-cols-2 gap-3 text-xs">
                             <div class="text-center">
-                                <div class="font-bold text-purple-600 dark:text-purple-400 text-lg" id="stat-total">0
-                                </div>
-                                <div class="text-gray-600 dark:text-gray-400">Searches</div>
+                                <div class="font-bold text-purple-500 text-lg" id="stat-total">0</div>
+                                <div class="text-[var(--text-muted)]">Queries</div>
                             </div>
                             <div class="text-center">
-                                <div class="font-bold text-purple-600 dark:text-purple-400 text-lg"
-                                    id="stat-similarity">0.00</div>
-                                <div class="text-gray-600 dark:text-gray-400">Avg Score</div>
+                                <div class="font-bold text-purple-500 text-lg" id="stat-similarity">0.00</div>
+                                <div class="text-[var(--text-muted)]">Avg Score</div>
                             </div>
                         </div>
                     </div>
@@ -188,155 +172,154 @@
             <!-- Main Content -->
             <main class="lg:col-span-3 space-y-6">
 
-                <!-- Welcome Card with Instructions -->
-                <div class="bg-gradient-to-r from-blue-500 to-cyan-500 rounded-xl shadow-lg p-6 text-white">
-                    <h2 class="text-xl font-bold mb-2">👋 Welcome! Let's find some images</h2>
-                    <p class="text-blue-100 text-sm">Search using text descriptions, upload a reference image, or
-                        combine both for best results!</p>
+                <!-- Welcome/Instruction Card -->
+                <div
+                    class="rounded-xl shadow-lg p-6 text-white bg-gradient-to-r from-blue-600 to-cyan-500 relative overflow-hidden">
+                    <div class="relative z-10">
+                        <h2 class="text-xl font-bold mb-2">👋 Welcome!</h2>
+                        <p class="text-blue-50 text-sm max-w-xl">
+                            Search using text descriptions, upload a reference image, or combine both.
+                            Our AI will understand your query and find the best matches.
+                        </p>
+                    </div>
+                    <!-- Decorative Circle -->
+                    <div class="absolute -right-10 -bottom-10 w-40 h-40 bg-white opacity-10 rounded-full"></div>
                 </div>
 
-                <!-- Search Form Card -->
-                <div class="bg-white dark:bg-gray-900 rounded-xl shadow-lg overflow-hidden">
-                    <div
-                        class="px-6 py-5 bg-gradient-to-r from-cyan-50 to-white dark:from-cyan-900/20 dark:to-transparent border-b border-gray-100 dark:border-gray-800">
-                        <h2 class="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">
-                            <i class="fas fa-search text-cyan-600"></i> Start Your Search
+                <!-- Search Interface -->
+                <div class="card">
+                    <div class="px-6 py-5 gradient-header-cyan">
+                        <h2 class="text-lg font-semibold text-[var(--text-main)] flex items-center gap-2">
+                            <i class="fas fa-search text-cyan-500"></i> Start Your Search
                         </h2>
-                        <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">Choose how you want to search</p>
                     </div>
                     <div class="p-6">
 
-                        <!-- Mode Selector with Descriptions -->
-                        <div class="mb-6">
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">Search
-                                Method</label>
-                            <div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-                                <button onclick="setMode('text')"
-                                    class="mode-btn mode-active p-4 rounded-xl text-left transition-all"
-                                    data-mode="text">
-                                    <div class="flex items-center gap-2 mb-1">
-                                        <i class="fas fa-font text-lg"></i>
-                                        <span class="font-semibold">Text Search</span>
-                                    </div>
-                                    <p class="text-xs opacity-75">Describe what you're looking for</p>
-                                </button>
-                                <button onclick="setMode('image')"
-                                    class="mode-btn p-4 rounded-xl text-left transition-all" data-mode="image">
-                                    <div class="flex items-center gap-2 mb-1">
-                                        <i class="fas fa-image text-lg"></i>
-                                        <span class="font-semibold">Image Search</span>
-                                    </div>
-                                    <p class="text-xs opacity-75">Upload a reference photo</p>
-                                </button>
-                                <button onclick="setMode('multimodal')"
-                                    class="mode-btn p-4 rounded-xl text-left transition-all" data-mode="multimodal">
-                                    <div class="flex items-center gap-2 mb-1">
-                                        <i class="fas fa-layer-group text-lg"></i>
-                                        <span class="font-semibold">Smart Search</span>
-                                    </div>
-                                    <p class="text-xs opacity-75">Combine text + image</p>
-                                </button>
-                            </div>
+                        <!-- Mode Selector -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
+                            <button onclick="setMode('text')" class="mode-btn mode-active p-4 rounded-xl text-left"
+                                data-mode="text">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <i class="fas fa-font text-lg"></i>
+                                    <span class="font-semibold">Text Search</span>
+                                </div>
+                                <p class="text-xs opacity-70">Query by description</p>
+                            </button>
+                            <button onclick="setMode('image')" class="mode-btn p-4 rounded-xl text-left"
+                                data-mode="image">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <i class="fas fa-image text-lg"></i>
+                                    <span class="font-semibold">Image Search</span>
+                                </div>
+                                <p class="text-xs opacity-70">Query by example</p>
+                            </button>
+                            <button onclick="setMode('multimodal')" class="mode-btn p-4 rounded-xl text-left"
+                                data-mode="multimodal">
+                                <div class="flex items-center gap-2 mb-1">
+                                    <i class="fas fa-layer-group text-lg"></i>
+                                    <span class="font-semibold">Smart Search</span>
+                                </div>
+                                <p class="text-xs opacity-70">Combine both</p>
+                            </button>
                         </div>
 
-                        <!-- Input Fields with Helpful Placeholders -->
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-5">
+                        <!-- Inputs -->
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
                             <!-- Text Input -->
                             <div id="text-input-container">
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    <i class="fas fa-keyboard text-blue-500"></i> Describe the image
+                                <label class="block text-sm font-medium text-[var(--text-main)] mb-2">
+                                    <i class="fas fa-keyboard text-blue-500"></i> Text Description
                                 </label>
-                                <input type="text" id="text-query"
-                                    placeholder="e.g., 'a sunset over mountains' or 'red sports car'"
-                                    class="w-full px-4 py-3 border-2 border-gray-200 dark:border-gray-700 dark:bg-gray-800 dark:text-white rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent text-sm transition">
-                                <p class="text-xs text-gray-500 dark:text-gray-400 mt-1">💡 Tip: Be specific for better
-                                    results</p>
+                                <input type="text" id="text-query" placeholder="e.g., 'a red ferrari on a track'"
+                                    class="w-full px-4 py-3 rounded-lg text-sm transition-all focus:ring-2 focus:ring-blue-500">
                             </div>
 
-                            <!-- Image Upload -->
+                            <!-- Image Input -->
                             <div id="image-input-container">
-                                <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-                                    <i class="fas fa-upload text-purple-500"></i> Upload reference image
+                                <label class="block text-sm font-medium text-[var(--text-main)] mb-2">
+                                    <i class="fas fa-upload text-purple-500"></i> Reference Image
                                 </label>
                                 <div class="relative">
                                     <input type="file" id="image-upload" accept="image/*" class="hidden"
                                         onchange="handleImageUpload(event)">
                                     <button onclick="document.getElementById('image-upload').click()"
-                                        class="w-full px-4 py-3 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg hover:border-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition text-gray-600 dark:text-gray-400 hover:text-blue-600 text-sm">
-                                        <i class="fas fa-cloud-upload-alt text-2xl mb-1"></i>
-                                        <div class="font-medium">Click to upload or drag & drop</div>
-                                        <div class="text-xs opacity-75">JPG, PNG up to 10MB</div>
+                                        class="file-upload-area w-full px-4 py-3 rounded-lg text-sm text-left flex items-center justify-between group">
+                                        <span class="flex items-center gap-2">
+                                            <i class="fas fa-cloud-upload-alt text-lg"></i>
+                                            <span>Upload Image</span>
+                                        </span>
+                                        <span class="text-xs opacity-60">JPG/PNG</span>
                                     </button>
                                 </div>
-                                <div id="image-preview" class="mt-2 hidden">
-                                    <img id="preview-img"
-                                        class="w-full h-32 object-cover rounded-lg border-2 border-blue-300">
-                                    <p class="text-xs text-green-600 dark:text-green-400 mt-1">✓ Image uploaded
-                                        successfully</p>
+                                <!-- Image Preview -->
+                                <div id="image-preview" class="mt-3 hidden animate-fade-in">
+                                    <div
+                                        class="relative w-full h-40 bg-gray-100 dark:bg-gray-800 rounded-lg overflow-hidden border border-[var(--border-color)]">
+                                        <img id="preview-img" class="w-full h-full object-contain">
+                                        <button
+                                            onclick="document.getElementById('image-upload').value = ''; document.getElementById('image-preview').classList.add('hidden');"
+                                            class="absolute top-2 right-2 bg-red-500 text-white p-1 rounded-full w-6 h-6 flex items-center justify-center hover:bg-red-600 transition">
+                                            <i class="fas fa-times text-xs"></i>
+                                        </button>
+                                    </div>
+                                    <p class="text-xs text-green-500 mt-1 flex items-center gap-1">
+                                        <i class="fas fa-check-circle"></i> Uploaded
+                                    </p>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Multimodal Weight Slider -->
-                        <div id="weight-slider-container"
-                            class="mb-6 p-4 bg-gradient-to-r from-blue-50 to-purple-50 dark:from-blue-900/20 dark:to-purple-900/20 rounded-lg hidden">
-                            <label class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-3">
-                                <i class="fas fa-balance-scale text-cyan-500"></i> Search Balance
+                        <!-- Slider for Multimodal -->
+                        <div id="weight-slider-container" class="mb-6 p-4 rounded-lg bg-[var(--bg-hover)] hidden">
+                            <label class="block text-sm font-medium text-[var(--text-main)] mb-3">
+                                <i class="fas fa-balance-scale text-cyan-500"></i> Balance Weights
                             </label>
                             <input type="range" id="text-weight-slider" min="0" max="1" step="0.1" value="0.5"
                                 class="w-full">
-                            <div class="flex justify-between text-xs text-gray-600 dark:text-gray-400 mt-2">
-                                <span><i class="fas fa-image text-purple-500"></i> Focus on image</span>
-                                <span id="weight-value"
-                                    class="font-semibold text-blue-600 dark:text-blue-400">Balanced</span>
-                                <span><i class="fas fa-font text-cyan-500"></i> Focus on text</span>
+                            <div class="flex justify-between text-xs text-[var(--text-muted)] mt-2 font-medium">
+                                <span>Image Heavy</span>
+                                <span id="weight-value" class="text-blue-500">Balanced (0.5)</span>
+                                <span>Text Heavy</span>
                             </div>
                         </div>
 
-                        <!-- Search Button - Big & Prominent -->
+                        <!-- Action Button -->
                         <button onclick="performSearch()" id="search-btn"
-                            class="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-bold py-4 px-6 rounded-xl transition-all shadow-lg hover:shadow-xl transform hover:scale-[1.02]">
-                            <i class="fas fa-rocket mr-2"></i> Search Now
+                            class="w-full bg-gradient-to-r from-blue-600 to-cyan-600 hover:from-blue-700 hover:to-cyan-700 text-white font-bold py-4 px-6 rounded-xl transition-all shadow-md hover:shadow-lg transform active:scale-[0.99] flex items-center justify-center gap-2">
+                            <i class="fas fa-rocket"></i>
+                            <span>Search & Generate</span>
                         </button>
-                        <p class="text-center text-xs text-gray-500 dark:text-gray-400 mt-2">Press Enter or click the
-                            button to search</p>
 
                     </div>
                 </div>
 
-                <!-- Loading Indicator -->
+                <!-- Loading State -->
                 <div id="loading-indicator" class="hidden">
-                    <div
-                        class="bg-white dark:bg-gray-900 rounded-xl shadow-lg border border-gray-200 dark:border-gray-800 p-8">
-                        <div class="flex flex-col items-center justify-center">
-                            <div class="relative">
-                                <div class="animate-spin rounded-full h-16 w-16 border-b-4 border-blue-600"></div>
-                                <i
-                                    class="fas fa-search absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 text-blue-600 text-xl"></i>
-                            </div>
-                            <p class="text-gray-700 dark:text-gray-300 text-base font-semibold mt-4" id="loading-text">
-                                Searching...</p>
-                            <p class="text-gray-500 dark:text-gray-400 text-sm mt-1">This might take a few seconds</p>
+                    <div class="card p-10 flex flex-col items-center justify-center text-center">
+                        <div
+                            class="w-16 h-16 border-4 border-blue-100 border-t-blue-600 rounded-full animate-spin mb-4">
                         </div>
+                        <h3 class="text-lg font-semibold text-[var(--text-main)]" id="loading-text">Analyzing Query...
+                        </h3>
+                        <p class="text-sm text-[var(--text-muted)]">This will just take a moment.</p>
                     </div>
                 </div>
 
-                <!-- Results Section -->
-                <div id="results-section" class="hidden space-y-6">
-                    <!-- Will be populated by JavaScript -->
+                <!-- Results Container -->
+                <div id="results-section" class="hidden space-y-8">
+                    <!-- Inserted dynamically by JS -->
                 </div>
 
             </main>
-
         </div>
     </div>
 
-    <!-- Toast Notification -->
+    <!-- Toast -->
     <div id="toast"
-        class="fixed bottom-4 right-4 bg-white dark:bg-gray-800 rounded-xl shadow-2xl border-l-4 border-blue-500 p-4 transform translate-y-full transition-transform duration-300 max-w-sm">
+        class="fixed bottom-5 right-5 z-50 px-6 py-4 rounded-lg shadow-xl font-medium transform translate-y-24 transition-transform duration-300">
         <div class="flex items-center gap-3">
-            <div id="toast-icon"></div>
-            <div id="toast-message" class="text-sm font-medium text-gray-800 dark:text-gray-200"></div>
+            <span id="toast-icon"></span>
+            <span id="toast-message"></span>
         </div>
     </div>
 

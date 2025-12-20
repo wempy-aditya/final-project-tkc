@@ -16,6 +16,9 @@ document.addEventListener('DOMContentLoaded', () => {
 async function initializeApp() {
     console.log('Initializing Multimodal RAG System...');
 
+    // Initialize dark mode
+    initializeDarkMode();
+
     // Setup event listeners
     setupEventListeners();
 
@@ -57,9 +60,9 @@ function setupEventListeners() {
 function updateStatusIndicator(isOnline) {
     const indicator = document.getElementById('status-indicator');
     if (isOnline) {
-        indicator.innerHTML = '<span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span><span class="text-gray-700 dark:text-gray-300 font-medium">Online</span>';
+        indicator.innerHTML = '<span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span><span class="text-green-600 dark:text-green-400">Ready</span>';
     } else {
-        indicator.innerHTML = '<span class="w-2 h-2 bg-red-500 rounded-full"></span><span class="text-gray-700 dark:text-gray-300 font-medium">Offline</span>';
+        indicator.innerHTML = '<span class="w-2 h-2 bg-red-500 rounded-full"></span><span class="text-red-500">Offline</span>';
     }
 }
 
@@ -91,7 +94,7 @@ function updateThemeIcon(isDark) {
     if (isDark) {
         icon.className = 'fas fa-sun text-yellow-400';
     } else {
-        icon.className = 'fas fa-moon text-gray-700';
+        icon.className = 'fas fa-moon text-[var(--text-muted)]';
     }
 }
 
