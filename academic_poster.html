@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Smart Image Search - Academic Poster</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f0f4f8;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .poster-container {
+            width: 4608px;
+            height: 2304px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+            border: 8px solid #2563eb;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
+            overflow: hidden;
+        }
+
+        .header-bar {
+            background: linear-gradient(135deg, #1e40af 0%, #3b82f6 50%, #2563eb 100%);
+            border-bottom: 6px solid #1d4ed8;
+            box-shadow: 0 4px 12px rgba(30, 64, 175, 0.3);
+        }
+
+        .section-box {
+            border: 3px solid #3b82f6;
+            background: white;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+            transition: transform 0.3s ease;
+        }
+
+        .section-title {
+            background: linear-gradient(90deg, #2563eb 0%, #3b82f6 100%);
+            color: white;
+            font-weight: 700;
+            padding: 12px 20px;
+            font-size: 42px;
+            border-bottom: 3px solid #1d4ed8;
+        }
+
+        .metric-box {
+            border: 2px solid #60a5fa;
+            background: linear-gradient(135deg, #eff6ff 0%, #dbeafe 100%);
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(59, 130, 246, 0.1);
+        }
+
+        .table-header {
+            background: linear-gradient(90deg, #1e40af 0%, #2563eb 100%);
+            color: white;
+        }
+
+        .chart-container {
+            background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+            border: 2px solid #cbd5e1;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+        }
+
+        .institution-logo {
+            width: 120px;
+            height: 120px;
+            background: linear-gradient(135deg, #dbeafe 0%, #bfdbfe 100%);
+            border: 3px solid #2563eb;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            font-weight: 700;
+            color: #1e40af;
+            box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
+        }
+
+        @media print {
+            body {
+                margin: 0;
+                padding: 0;
+                background: white;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="poster-container">
+        <!-- Header -->
+        <div class="header-bar px-12 py-8 flex items-center justify-between">
+            <div class="flex gap-6">
+                <div class="institution-logo">UNI</div>
+                <div class="institution-logo">LAB</div>
+                <div class="institution-logo">INST</div>
+            </div>
+
+            <div class="flex-1 mx-12 text-center">
+                <h1 class="text-6xl font-bold text-white mb-3 leading-tight">
+                    Smart Image Search: Multimodal RAG System with CLIP, FAISS, LLM & Stable Diffusion
+                </h1>
+                <p class="text-3xl text-blue-100 font-medium">
+                    Nama Anggota 1¹ · Nama Anggota 2² · Nama Anggota 3³ · Nama Anggota 4⁴
+                </p>
+                <p class="text-2xl text-blue-200 mt-2">
+                    ¹Institute of Information Engineering · ²School of Cyber Science and Engineering · ³University Name
+                    · ⁴Laboratory for Advanced Computing
+                </p>
+            </div>
+
+            <div class="institution-logo text-xl">CONF<br />2025</div>
+        </div>
+
+        <!-- Main Content - 3 Columns -->
+        <div class="grid grid-cols-3 gap-6 p-6">
+            <!-- LEFT COLUMN -->
+            <div class="space-y-6">
+                <!-- Introduction -->
+                <div class="section-box">
+                    <div class="section-title">Introduction</div>
+                    <div class="p-5 space-y-4">
+                        <div>
+                            <h3 class="text-3xl font-bold text-blue-900 mb-3">Challenges</h3>
+                            <ul class="text-2xl space-y-2 text-gray-800">
+                                <li class="flex items-start">
+                                    <span class="text-blue-600 mr-3">▸</span>
+                                    <span>Existing DIR methods focus mainly on <strong>visual cues</strong>, limiting
+                                        retrieval within <strong>coarse semantic classes</strong></span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-blue-600 mr-3">▸</span>
+                                    <span>Difficult to capture <strong>rich and complex visual features</strong> in
+                                        documents</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-blue-600 mr-3">▸</span>
+                                    <span><strong>Lack of fine-grained</strong> DIR datasets hinders supervised
+                                        training</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-blue-600 mr-3">▸</span>
+                                    <span><strong>Insufficient evaluation</strong> on large-scale, real-world document
+                                        images</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="mt-4">
+                            <h3 class="text-3xl font-bold text-blue-900 mb-3">Contributions</h3>
+                            <ul class="text-2xl space-y-2 text-gray-800">
+                                <li class="flex items-start">
+                                    <span class="text-blue-600 mr-3">▸</span>
+                                    <span>Propose the <strong>first fine-grained DIR benchmark</strong> in natural
+                                        scenes</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-blue-600 mr-3">▸</span>
+                                    <span>Conduct a <strong>comprehensive evaluation</strong> of mainstream cross-modal
+                                        models</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-blue-600 mr-3">▸</span>
+                                    <span>Develop a <strong>two-stage DIR framework</strong> with strong performance in
+                                        real-world settings</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <!-- Comparison Diagram -->
+                        <div class="mt-8 chart-container p-6 rounded-lg">
+                            <p class="text-2xl text-gray-700 mb-4"><strong>Figure 1.</strong> Comparison of different
+                                paradigms for DIR tasks</p>
+                            <div class="grid grid-cols-3 gap-4 text-center">
+                                <div class="bg-blue-50 p-4 rounded border-2 border-blue-200">
+                                    <div class="text-2xl font-bold text-blue-900 mb-2">Image Retrieval</div>
+                                    <div class="text-xl text-gray-600">Query: Image<br />Output: Images</div>
+                                </div>
+                                <div class="bg-green-50 p-4 rounded border-2 border-green-200">
+                                    <div class="text-2xl font-bold text-green-900 mb-2">Text Retrieval</div>
+                                    <div class="text-xl text-gray-600">Query: Text<br />Output: Images</div>
+                                </div>
+                                <div class="bg-purple-50 p-4 rounded border-2 border-purple-200">
+                                    <div class="text-2xl font-bold text-purple-900 mb-2">Cross-Modal</div>
+                                    <div class="text-xl text-gray-600">Query: Text+Image<br />Output: Images</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dataset -->
+                <div class="section-box">
+                    <div class="section-title">MS COCO Dataset</div>
+                    <div class="p-5 space-y-4">
+                        <div>
+                            <h3 class="text-3xl font-bold text-blue-900 mb-3">Data Annotation</h3>
+                            <ul class="text-2xl space-y-2 text-gray-800">
+                                <li class="flex items-start">
+                                    <span class="text-blue-600 mr-3">▸</span>
+                                    <span><strong>Generation:</strong> Layout Simulation + LLM-based Query
+                                        Generation</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <span class="text-blue-600 mr-3">▸</span>
+                                    <span><strong>Filtering:</strong> Multi-model Scoring + Manual Verification</span>
+                                </li>
+                            </ul>
+                        </div>
+
+                        <div class="metric-box p-4 rounded-lg">
+                            <h3 class="text-3xl font-bold text-blue-900 mb-3">Data Overview</h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="text-center p-4 bg-white rounded">
+                                    <div class="text-6xl font-bold text-blue-600">5,000</div>
+                                    <div class="text-2xl text-gray-700 mt-2">Document Images</div>
+                                </div>
+                                <div class="text-center p-4 bg-white rounded">
+                                    <div class="text-6xl font-bold text-blue-600">25,000+</div>
+                                    <div class="text-2xl text-gray-700 mt-2">Annotations</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <ul class="text-2xl space-y-2 text-gray-800">
+                                <li><strong>Split:</strong> 8:1:1 → Training / Validation / Test</li>
+                                <li><strong>Source:</strong> UCSF Industry Documents Library</li>
+                                <li><strong>OCR Tools:</strong> Microsoft OCR (DocVQA) & Amazon Textract</li>
+                            </ul>
+                        </div>
+
+                        <!-- Bar Chart Placeholder -->
+                        <div class="chart-container p-6 rounded-lg">
+                            <p class="text-2xl text-gray-700 mb-4"><strong>Figure 2.</strong> Statistics of dataset
+                                distribution</p>
+                            <div
+                                class="h-64 bg-gradient-to-t from-blue-100 to-white rounded flex items-end justify-around px-4 pb-4">
+                                <div class="w-16 bg-blue-500 rounded-t" style="height: 80%"></div>
+                                <div class="w-16 bg-blue-500 rounded-t" style="height: 65%"></div>
+                                <div class="w-16 bg-blue-500 rounded-t" style="height: 90%"></div>
+                                <div class="w-16 bg-blue-500 rounded-t" style="height: 70%"></div>
+                                <div class="w-16 bg-blue-500 rounded-t" style="height: 85%"></div>
+                                <div class="w-16 bg-blue-500 rounded-t" style="height: 60%"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MIDDLE COLUMN -->
+            <div class="space-y-6">
+                <!-- Methodology -->
+                <div class="section-box">
+                    <div class="section-title">Methodology</div>
+                    <div class="p-5 space-y-4">
+                        <div>
+                            <h3 class="text-3xl font-bold text-blue-900 mb-3">Baseline Evaluation</h3>
+                            <ul class="text-2xl space-y-2 text-gray-800">
+                                <li><strong>▸ Goal:</strong> evaluate models on retrieval showing strong performance
+                                </li>
+                                <li><strong>▸ Models:</strong> wide range of contrastive VLMs and generative VDU models
+                                </li>
+                                <li><strong>▸ Metrics:</strong> MRR@k, Recall@k</li>
+                            </ul>
+                        </div>
+
+                        <!-- Architecture Diagram -->
+                        <div class="chart-container p-4 rounded-lg">
+                            <p class="text-xl text-gray-700 mb-3 font-semibold">System Architecture</p>
+                            <div class="space-y-3">
+                                <div class="bg-blue-50 border-2 border-blue-300 rounded-lg p-4 text-center">
+                                    <div class="text-3xl font-bold text-blue-900">Frontend Layer</div>
+                                    <div class="text-2xl text-gray-600 mt-1">HTML + Tailwind CSS + JavaScript</div>
+                                </div>
+                                <div class="text-center text-4xl text-gray-400">↓</div>
+                                <div class="bg-purple-50 border-2 border-purple-300 rounded-lg p-4 text-center">
+                                    <div class="text-3xl font-bold text-purple-900">Backend API</div>
+                                    <div class="text-2xl text-gray-600 mt-1">Flask RESTful Server</div>
+                                </div>
+                                <div class="text-center text-4xl text-gray-400">↓</div>
+                                <div class="grid grid-cols-3 gap-3">
+                                    <div class="bg-green-50 border-2 border-green-300 rounded p-3 text-center">
+                                        <div class="text-2xl font-bold text-green-900">CLIP + FAISS</div>
+                                        <div class="text-xl text-gray-600">Retriever</div>
+                                    </div>
+                                    <div class="bg-yellow-50 border-2 border-yellow-300 rounded p-3 text-center">
+                                        <div class="text-2xl font-bold text-yellow-900">LLM</div>
+                                        <div class="text-xl text-gray-600">Text Gen</div>
+                                    </div>
+                                    <div class="bg-pink-50 border-2 border-pink-300 rounded p-3 text-center">
+                                        <div class="text-2xl font-bold text-pink-900">Stable Diff</div>
+                                        <div class="text-xl text-gray-600">Image Gen</div>
+                                    </div>
+                                </div>
+                                <div class="text-center text-4xl text-gray-400">↓</div>
+                                <div class="bg-gray-50 border-2 border-gray-300 rounded-lg p-4 text-center">
+                                    <div class="text-3xl font-bold text-gray-900">Data Layer</div>
+                                    <div class="text-2xl text-gray-600 mt-1">COCO + FAISS Index + SQLite</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <h3 class="text-3xl font-bold text-blue-900 mb-3">Two-Stage Framework</h3>
+
+                            <div class="metric-box p-6 rounded-lg mb-4">
+                                <h4 class="text-3xl font-bold text-blue-800 mb-3">Stage 1: Recall</h4>
+                                <ul class="text-2xl space-y-2 text-gray-800">
+                                    <li>• Fast matching of large-scale candidates</li>
+                                    <li>• Apply LoRA to improve encoder alignment</li>
+                                </ul>
+                            </div>
+
+                            <div class="metric-box p-6 rounded-lg">
+                                <h4 class="text-3xl font-bold text-blue-800 mb-3">Stage 2: Re-ranking</h4>
+                                <ul class="text-2xl space-y-2 text-gray-800">
+                                    <li>• Refine top-100 results</li>
+                                    <li>• Introduce cross-modal interaction modules</li>
+                                    <li>• Optimize with pointwise + pairwise loss</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <!-- Pipeline Diagram -->
+                        <div class="chart-container p-6 rounded-lg mt-6">
+                            <p class="text-2xl text-gray-700 mb-4 font-semibold">Figure 6. Processing Pipeline</p>
+                            <div class="space-y-3">
+                                <div class="flex items-center gap-4">
+                                    <div
+                                        class="bg-blue-600 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-2xl">
+                                        1</div>
+                                    <div class="flex-1 bg-blue-50 p-3 rounded border-2 border-blue-200 text-2xl">Query
+                                        Encoding (CLIP)</div>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <div
+                                        class="bg-blue-600 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-2xl">
+                                        2</div>
+                                    <div class="flex-1 bg-blue-50 p-3 rounded border-2 border-blue-200 text-2xl">Vector
+                                        Search (FAISS)</div>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <div
+                                        class="bg-blue-600 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-2xl">
+                                        3</div>
+                                    <div class="flex-1 bg-blue-50 p-3 rounded border-2 border-blue-200 text-2xl">Context
+                                        Building</div>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <div
+                                        class="bg-blue-600 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-2xl">
+                                        4</div>
+                                    <div class="flex-1 bg-blue-50 p-3 rounded border-2 border-blue-200 text-2xl">
+                                        Generation (LLM + SD)</div>
+                                </div>
+                                <div class="flex items-center gap-4">
+                                    <div
+                                        class="bg-blue-600 text-white rounded-full w-10 h-10 flex items-center justify-center font-bold text-2xl">
+                                        5</div>
+                                    <div class="flex-1 bg-blue-50 p-3 rounded border-2 border-blue-200 text-2xl">
+                                        Response & Logging</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RIGHT COLUMN -->
+            <div class="space-y-6">
+                <!-- Results Analysis -->
+                <div class="section-box">
+                    <div class="section-title">Result Analysis</div>
+                    <div class="p-5 space-y-4">
+                        <div>
+                            <h3 class="text-3xl font-bold text-blue-900 mb-3">Analysis on Recall Stage</h3>
+
+                            <!-- Performance Table -->
+                            <div class="border-2 border-blue-300 rounded-lg overflow-hidden mb-6">
+                                <table class="w-full text-2xl">
+                                    <thead>
+                                        <tr class="table-header">
+                                            <th class="p-3 text-left">Model</th>
+                                            <th class="p-3 text-center">Recall@1</th>
+                                            <th class="p-3 text-center">Recall@5</th>
+                                            <th class="p-3 text-center">Recall@10</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr class="border-t-2 border-blue-200 bg-blue-50">
+                                            <td class="p-3 font-semibold">CLIP-Base</td>
+                                            <td class="p-3 text-center">31.67</td>
+                                            <td class="p-3 text-center">68.33</td>
+                                            <td class="p-3 text-center">81.67</td>
+                                        </tr>
+                                        <tr class="border-t border-blue-100">
+                                            <td class="p-3">BLIP-Large</td>
+                                            <td class="p-3 text-center">35.44</td>
+                                            <td class="p-3 text-center">73.12</td>
+                                            <td class="p-3 text-center">84.23</td>
+                                        </tr>
+                                        <tr class="border-t border-blue-100">
+                                            <td class="p-3">InternVL</td>
+                                            <td class="p-3 text-center">28.25</td>
+                                            <td class="p-3 text-center">64.43</td>
+                                            <td class="p-3 text-center">79.56</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <ul class="text-2xl space-y-2 text-gray-800">
+                                <li>▸ Fine-grained alignment of BLIP achieves recall@1 of 81.03%</li>
+                                <li>▸ OCR-IR pipeline is outperformed by Pix2Struct methods</li>
+                            </ul>
+                        </div>
+
+                        <div class="mt-4">
+                            <h3 class="text-3xl font-bold text-blue-900 mb-3">Performance by Scenario</h3>
+
+                            <div class="space-y-3">
+                                <div class="metric-box p-4 rounded-lg flex justify-between items-center">
+                                    <span class="text-2xl font-semibold">Simple Objects</span>
+                                    <span class="text-3xl font-bold text-green-600">80.00%</span>
+                                </div>
+                                <div class="metric-box p-4 rounded-lg flex justify-between items-center">
+                                    <span class="text-2xl font-semibold">Specific Attributes</span>
+                                    <span class="text-3xl font-bold text-blue-600">73.33%</span>
+                                </div>
+                                <div class="metric-box p-4 rounded-lg flex justify-between items-center">
+                                    <span class="text-2xl font-semibold">Complex Scenes</span>
+                                    <span class="text-3xl font-bold text-orange-600">60.00%</span>
+                                </div>
+                                <div class="metric-box p-4 rounded-lg flex justify-between items-center">
+                                    <span class="text-2xl font-semibold">Abstract Concepts</span>
+                                    <span class="text-3xl font-bold text-red-600">53.33%</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-4">
+                            <h3 class="text-3xl font-bold text-blue-900 mb-3">Key Metrics</h3>
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="metric-box p-5 rounded-lg text-center">
+                                    <div class="text-5xl font-bold text-blue-600">84.7ms</div>
+                                    <div class="text-2xl text-gray-700 mt-2">Avg Latency</div>
+                                </div>
+                                <div class="metric-box p-5 rounded-lg text-center">
+                                    <div class="text-5xl font-bold text-blue-600">64.21%</div>
+                                    <div class="text-2xl text-gray-700 mt-2">Faithfulness</div>
+                                </div>
+                                <div class="metric-box p-5 rounded-lg text-center">
+                                    <div class="text-5xl font-bold text-blue-600">41.27%</div>
+                                    <div class="text-2xl text-gray-700 mt-2">Avg Similarity</div>
+                                </div>
+                                <div class="metric-box p-5 rounded-lg text-center">
+                                    <div class="text-5xl font-bold text-blue-600">2.87s</div>
+                                    <div class="text-2xl text-gray-700 mt-2">Gen Time</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mt-8 chart-container p-6 rounded-lg">
+                            <h4 class="text-3xl font-bold text-gray-800 mb-4">Qualitative Analysis</h4>
+                            <ul class="text-2xl space-y-2 text-gray-700">
+                                <li>▸ OCR-free NL-DIR fully leverages visual information</li>
+                                <li>▸ Re-ranking stage enables fine-grained matching</li>
+                                <li>▸ Concrete queries yield better performance than abstract ones</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Conclusion -->
+                <div class="section-box">
+                    <div class="section-title">Conclusion & Future Work</div>
+                    <div class="p-5 space-y-4">
+                        <div>
+                            <h3 class="text-3xl font-bold text-blue-900 mb-3">Summary</h3>
+                            <p class="text-2xl text-gray-800 leading-relaxed">
+                                Sistem Multimodal RAG berhasil mencapai <strong>Recall@5 68.33%</strong> dan
+                                <strong>Faithfulness 64.21%</strong>, menunjukkan performa solid untuk general image
+                                retrieval dengan latency <strong>&lt;100ms</strong>.
+                            </p>
+                        </div>
+
+                        <div class="metric-box p-4 rounded-lg">
+                            <h3 class="text-2xl font-bold text-blue-900 mb-2">Key Achievements</h3>
+                            <ul class="text-2xl space-y-2 text-gray-800">
+                                <li>✓ Fast semantic search with FAISS</li>
+                                <li>✓ Minimal hallucination with RAG</li>
+                                <li>✓ Modern responsive web interface</li>
+                                <li>✓ Comprehensive evaluation framework</li>
+                            </ul>
+                        </div>
+
+                        <div>
+                            <h3 class="text-3xl font-bold text-blue-900 mb-3">Future Directions</h3>
+                            <ul class="text-2xl space-y-2 text-gray-800">
+                                <li>▸ Local models for full privacy</li>
+                                <li>▸ Larger dataset for scalability</li>
+                                <li>▸ Video retrieval capabilities</li>
+                                <li>▸ Advanced re-ranking algorithms</li>
+                                <li>▸ Multi-user authentication system</li>
+                            </ul>
+                        </div>
+
+                        <div class="mt-8 pt-6 border-t-4 border-blue-300">
+                            <div class="text-center">
+                                <p class="text-3xl font-bold text-gray-800 mb-2">Contact Information</p>
+                                <p class="text-2xl text-gray-600">📧 email@university.edu</p>
+                                <p class="text-2xl text-gray-600">🔗 github.com/project-repo</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
