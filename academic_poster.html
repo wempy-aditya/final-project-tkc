@@ -130,8 +130,8 @@
         }
 
         .institution-logo {
-            width: 120px;
-            height: 120px;
+            width: 160px;
+            height: 160px;
             background: linear-gradient(135deg, #ffffff 0%, #eff6ff 100%);
             border: 3px solid #3b82f6;
             border-radius: 24px;
@@ -145,6 +145,13 @@
             box-shadow: 0 8px 20px rgba(37, 99, 235, 0.15);
             transform: rotate(-2deg);
             transition: transform 0.3s ease;
+        }
+
+        .institution-logo img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            padding: 10px;
         }
 
         .institution-logo:nth-child(2) {
@@ -177,13 +184,11 @@
         <!-- Header -->
         <div class="header-bar px-12 py-8 flex items-center justify-between">
             <div class="flex gap-6">
-                <!-- TODO: Ganti dengan logo kampus (UMM) -->
                 <div class="institution-logo" title="Logo Universitas Muhammadiyah Malang">
-                    <i class="fas fa-university"></i>
+                    <img src="assets/img/lambang-umm.webp" alt="Logo Universitas Muhammadiyah Malang">
                 </div>
-                <!-- TODO: Ganti dengan logo Jurusan Informatika -->
                 <div class="institution-logo" title="Logo Informatika">
-                    <i class="fas fa-graduation-cap"></i>
+                    <img src="assets/img/logo-informatika.png" alt="Logo Jurusan Informatika">
                 </div>
             </div>
 
@@ -339,10 +344,40 @@
                             <p class="text-2xl text-gray-700 mb-4"><strong>Figure 2.</strong> Dataset Characteristics
                             </p>
                             <div class="text-center text-xl text-gray-600 py-8">
-                                <i class="fas fa-chart-bar text-6xl text-blue-300 mb-4"></i>
+                                <!-- <i class="fas fa-chart-bar text-6xl text-blue-300 mb-4"></i>
                                 <p>📊 TODO: Add dataset statistics visualization</p>
-                                <p class="text-lg mt-2">(Category distribution, image count, etc.)</p>
+                                <p class="text-lg mt-2">(Category distribution, image count, etc.)</p> -->
+                                <img src="assets/img/dataset.png" alt="Dataset Statistics">
                             </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- System Comparison - DIPINDAH DARI KOLOM KANAN -->
+                <div class="section-box">
+                    <div class="section-title"><i class="fas fa-trophy"></i> Performance Comparison</div>
+                    <div class="p-5 space-y-4">
+                        <div class="space-y-3">
+                            <div
+                                class="flex items-center justify-between p-4 bg-gradient-to-r from-blue-50 to-blue-100 rounded-lg border-2 border-blue-300">
+                                <span class="text-2xl font-bold text-gray-800">Our System (CLIP+RAG)</span>
+                                <span class="text-3xl font-bold text-blue-600">68.33%</span>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                <span class="text-2xl text-gray-600">Keyword Search</span>
+                                <span class="text-2xl text-gray-500">~35%</span>
+                            </div>
+                            <div class="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                                <span class="text-2xl text-gray-600">Traditional IR</span>
+                                <span class="text-2xl text-gray-500">~40%</span>
+                            </div>
+                        </div>
+                        <div class="metric-box p-4 rounded-lg text-center">
+                            <p class="text-2xl text-gray-700">
+                                <i class="fas fa-arrow-up text-green-600 text-3xl"></i>
+                            </p>
+                            <p class="text-2xl font-bold text-green-600 mt-2">+95% Improvement</p>
+                            <p class="text-xl text-gray-600">over keyword-based search</p>
                         </div>
                     </div>
                 </div>
@@ -465,6 +500,81 @@
                         </div>
                     </div>
                 </div>
+
+                <!-- Technology Stack -->
+                <div class="section-box">
+                    <div class="section-title"><i class="fas fa-code"></i> Technology Stack</div>
+                    <div class="p-5 space-y-4">
+                        <div class="grid grid-cols-2 gap-4">
+                            <div class="metric-box p-4 rounded-lg text-center">
+                                <i class="fas fa-brain text-4xl text-blue-600 mb-2"></i>
+                                <div class="text-xl font-bold text-gray-800">CLIP ViT-B/32</div>
+                                <div class="text-lg text-gray-600">Multimodal Encoder</div>
+                            </div>
+                            <div class="metric-box p-4 rounded-lg text-center">
+                                <i class="fas fa-search text-4xl text-green-600 mb-2"></i>
+                                <div class="text-xl font-bold text-gray-800">FAISS</div>
+                                <div class="text-lg text-gray-600">Vector Search</div>
+                            </div>
+                            <div class="metric-box p-4 rounded-lg text-center">
+                                <i class="fas fa-robot text-4xl text-purple-600 mb-2"></i>
+                                <div class="text-xl font-bold text-gray-800">GPT-4o-mini</div>
+                                <div class="text-lg text-gray-600">Text Generation</div>
+                            </div>
+                            <div class="metric-box p-4 rounded-lg text-center">
+                                <i class="fas fa-image text-4xl text-orange-600 mb-2"></i>
+                                <div class="text-xl font-bold text-gray-800">Stable Diffusion</div>
+                                <div class="text-lg text-gray-600">Image Synthesis</div>
+                            </div>
+                        </div>
+                        <div class="chart-container p-4 rounded-lg">
+                            <h4 class="text-2xl font-bold text-gray-800 mb-2">Backend & Frontend</h4>
+                            <ul class="text-xl space-y-1 text-gray-700">
+                                <li><i class="fas fa-server text-blue-600"></i> <strong>Backend:</strong> Python Flask
+                                    REST API</li>
+                                <li><i class="fas fa-palette text-blue-600"></i> <strong>Frontend:</strong> HTML5 +
+                                    Tailwind CSS + Vanilla JS</li>
+                                <li><i class="fas fa-database text-blue-600"></i> <strong>Storage:</strong> SQLite +
+                                    File System</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- System Highlights -->
+                <div class="section-box">
+                    <div class="section-title"><i class="fas fa-star"></i> System Highlights</div>
+                    <div class="p-5 space-y-3">
+                        <div class="metric-box p-4 rounded-lg">
+                            <div class="flex items-center gap-3">
+                                <i class="fas fa-bolt text-4xl text-yellow-500"></i>
+                                <div>
+                                    <div class="text-2xl font-bold text-gray-800">Real-time Performance</div>
+                                    <div class="text-xl text-gray-600">Average latency &lt;100ms for instant results
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="metric-box p-4 rounded-lg">
+                            <div class="flex items-center gap-3">
+                                <i class="fas fa-shield-alt text-4xl text-green-500"></i>
+                                <div>
+                                    <div class="text-2xl font-bold text-gray-800">Minimal Hallucination</div>
+                                    <div class="text-xl text-gray-600">64.21% faithfulness with RAG grounding</div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="metric-box p-4 rounded-lg">
+                            <div class="flex items-center gap-3">
+                                <i class="fas fa-layer-group text-4xl text-purple-500"></i>
+                                <div>
+                                    <div class="text-2xl font-bold text-gray-800">Multimodal Capability</div>
+                                    <div class="text-xl text-gray-600">Text, Image, and Hybrid search modes</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
 
             <!-- RIGHT COLUMN -->
@@ -582,7 +692,7 @@
                 <!-- Conclusion -->
                 <div class="section-box">
                     <div class="section-title"><i class="fas fa-flag-checkered"></i> Conclusion & Future Work</div>
-                    <div class="p-5 space-y-4">
+                    <div class="p-5 space-y-5">
                         <div>
                             <h3 class="text-3xl font-bold text-blue-900 mb-3">Summary</h3>
                             <p class="text-2xl text-gray-800 leading-relaxed"> The Multimodal RAG System successfully
@@ -592,7 +702,7 @@
                         </div>
 
                         <div class="metric-box p-4 rounded-lg">
-                            <h3 class="text-2xl font-bold text-blue-900 mb-2">Key Achievements</h3>
+                            <h3 class="text-2xl font-bold text-blue-900 mb-3">Key Achievements</h3>
                             <ul class="text-2xl space-y-2 text-gray-800">
                                 <li><i class="fas fa-bolt list-item-icon"></i> Fast semantic search with FAISS</li>
                                 <li><i class="fas fa-brain list-item-icon"></i> Minimal hallucination with RAG</li>
@@ -603,7 +713,7 @@
                             </ul>
                         </div>
 
-                        <div>
+                        <div class="mt-4">
                             <h3 class="text-3xl font-bold text-blue-900 mb-3">Future Directions</h3>
                             <ul class="text-2xl space-y-2 text-gray-800">
                                 <li><i class="fas fa-unlock-alt list-item-icon"></i> Local models for full privacy</li>
@@ -611,7 +721,6 @@
                                 <li><i class="fas fa-video list-item-icon"></i> Video retrieval capabilities</li>
                                 <li><i class="fas fa-sort-numeric-up list-item-icon"></i> Advanced re-ranking algorithms
                                 </li>
-                                <li><i class="fas fa-users list-item-icon"></i> Multi-user authentication system</li>
                             </ul>
                         </div>
 
@@ -619,13 +728,14 @@
                         <div class="mt-6 chart-container p-6 rounded-lg">
                             <h3 class="text-3xl font-bold text-blue-900 mb-4">System Interface</h3>
                             <div class="text-center text-xl text-gray-600 py-6">
-                                <i class="fas fa-desktop text-6xl text-blue-300 mb-4"></i>
+                                <!-- <i class="fas fa-desktop text-6xl text-blue-300 mb-4"></i>
                                 <p>📸 TODO: Add system screenshots here</p>
-                                <p class="text-lg mt-2">(UI interface, search results, generation output)</p>
+                                <p class="text-lg mt-2">(UI interface, search results, generation output)</p> -->
+                                <img src="assets/img/homepage.png" alt="System Interface">
                             </div>
                         </div>
 
-                        <div class="mt-6 pt-6 border-t-4 border-blue-300">
+                        <!-- <div class="mt-6 pt-6 border-t-4 border-blue-300">
                             <div class="text-center">
                                 <p class="text-3xl font-bold text-gray-800 mb-3">Repository & Contact</p>
                                 <div class="flex justify-center items-center gap-8">
@@ -633,17 +743,18 @@
                                         <p><i class="fas fa-code-branch text-blue-600"></i> <strong>GitHub:</strong>
                                             github.com/wempy-aditya/multimodal-rag</p>
                                         <p class="mt-2"><i class="fas fa-university text-blue-600"></i>
-                                            <strong>Institution:</strong> Universitas Muhammadiyah Malang</p>
+                                            <strong>Institution:</strong> Universitas Muhammadiyah Malang
+                                        </p>
                                         <p class="mt-2"><i class="fas fa-envelope text-blue-600"></i>
-                                            <strong>Contact:</strong> [email@umm.ac.id]</p>
+                                            <strong>Contact:</strong> [email@umm.ac.id]
+                                        </p>
                                     </div>
-                                    <!-- TODO: Add QR Code for repository -->
                                     <div class="w-32 h-32 bg-gray-200 rounded-lg flex items-center justify-center">
                                         <i class="fas fa-qrcode text-5xl text-gray-400"></i>
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                     </div>
                 </div>
             </div>
