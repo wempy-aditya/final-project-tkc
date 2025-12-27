@@ -177,9 +177,14 @@
         <!-- Header -->
         <div class="header-bar px-12 py-8 flex items-center justify-between">
             <div class="flex gap-6">
-                <div class="institution-logo"><i class="fas fa-university"></i></div>
-                <div class="institution-logo"><i class="fas fa-flask"></i></div>
-                <div class="institution-logo"><i class="fas fa-microchip"></i></div>
+                <!-- TODO: Ganti dengan logo kampus (UMM) -->
+                <div class="institution-logo" title="Logo Universitas Muhammadiyah Malang">
+                    <i class="fas fa-university"></i>
+                </div>
+                <!-- TODO: Ganti dengan logo Jurusan Informatika -->
+                <div class="institution-logo" title="Logo Informatika">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
             </div>
 
             <div class="flex-1 mx-12 text-center">
@@ -187,15 +192,16 @@
                     Smart Image Search: Multimodal RAG System with CLIP, FAISS, LLM & Stable Diffusion
                 </h1>
                 <p class="text-3xl text-blue-100 font-medium">
-                    Muhammad Syahrul Bachtiar¹ · Fitra Romeo Winky² · Wempy Aditya Wirawan³ · Andika Nur Islamy⁴
+                    Muhammad Syahrul Bachtiar · Fitra Romeo Winky · Wempy Aditya Wirawan · Andika Nur Islamy
                 </p>
                 <p class="text-2xl text-blue-200 mt-2">
-                    ¹Image Retrieval · ²Informatics Department · ³University of Muhammadiyah Malang
-
+                    Mata Kuliah: Project Temu Kembali Citra · Universitas Muhammadiyah Malang
                 </p>
             </div>
 
-            <div class="institution-logo text-xl">CONF<br />2025</div>
+            <div class="institution-logo text-xl" title="2025">
+                <i class="fas fa-calendar-alt"></i>
+            </div>
         </div>
 
         <!-- Main Content - 3 Columns -->
@@ -211,23 +217,23 @@
                             <ul class="text-2xl space-y-2 text-gray-800">
                                 <li class="flex items-start">
                                     <i class="fas fa-exclamation-circle list-item-icon mt-2"></i>
-                                    <span>Existing DIR methods focus mainly on <strong>visual cues</strong>, limiting
-                                        retrieval within <strong>coarse semantic classes</strong></span>
+                                    <span>Traditional <strong>keyword-based retrieval</strong> fails to capture semantic
+                                        nuances of complex queries</span>
                                 </li>
                                 <li class="flex items-start">
                                     <i class="fas fa-exclamation-circle list-item-icon mt-2"></i>
-                                    <span>Difficult to capture <strong>rich and complex visual features</strong> in
-                                        documents</span>
+                                    <span>Generative models (LLMs) often suffer from <strong>hallucination</strong>
+                                        without factual grounding</span>
                                 </li>
                                 <li class="flex items-start">
                                     <i class="fas fa-exclamation-circle list-item-icon mt-2"></i>
-                                    <span><strong>Lack of fine-grained</strong> DIR datasets hinders supervised
-                                        training</span>
+                                    <span>Difficult to integrate <strong>visual search</strong> with <strong>content
+                                            generation</strong> seamlessly</span>
                                 </li>
                                 <li class="flex items-start">
                                     <i class="fas fa-exclamation-circle list-item-icon mt-2"></i>
-                                    <span><strong>Insufficient evaluation</strong> on large-scale, real-world document
-                                        images</span>
+                                    <span>Need for <strong>real-time performance</strong> in multimodal retrieval
+                                        systems</span>
                                 </li>
                             </ul>
                         </div>
@@ -237,38 +243,44 @@
                             <ul class="text-2xl space-y-2 text-gray-800">
                                 <li class="flex items-start">
                                     <i class="fas fa-check-circle list-item-icon mt-2"></i>
-                                    <span>Propose the <strong>first fine-grained DIR benchmark</strong> in natural
-                                        scenes</span>
+                                    <span>Implemented <strong>end-to-end Multimodal RAG</strong> architecture
+                                        integrating retrieval and generation</span>
                                 </li>
                                 <li class="flex items-start">
                                     <i class="fas fa-check-circle list-item-icon mt-2"></i>
-                                    <span>Conduct a <strong>comprehensive evaluation</strong> of mainstream cross-modal
-                                        models</span>
+                                    <span>Achieved <strong>semantic search with &lt;100ms latency</strong> using CLIP +
+                                        FAISS</span>
                                 </li>
                                 <li class="flex items-start">
                                     <i class="fas fa-check-circle list-item-icon mt-2"></i>
-                                    <span>Develop a <strong>two-stage DIR framework</strong> with strong performance in
-                                        real-world settings</span>
+                                    <span>Developed <strong>generative augmentation</strong> with LLM and Stable
+                                        Diffusion</span>
+                                </li>
+                                <li class="flex items-start">
+                                    <i class="fas fa-check-circle list-item-icon mt-2"></i>
+                                    <span>Created <strong>modern web UI</strong> with Dark Mode and real-time
+                                        metrics</span>
                                 </li>
                             </ul>
                         </div>
 
                         <!-- Comparison Diagram -->
-                        <div class="mt-8 chart-container p-6 rounded-lg">
-                            <p class="text-2xl text-gray-700 mb-4"><strong>Figure 1.</strong> Comparison of different
-                                paradigms for DIR tasks</p>
+                        <div class="mt-6 chart-container p-6 rounded-lg">
+                            <p class="text-2xl text-gray-700 mb-4"><strong>Figure 1.</strong> Multimodal Search
+                                Paradigms</p>
                             <div class="grid grid-cols-3 gap-4 text-center">
                                 <div class="bg-blue-50 p-4 rounded border-2 border-blue-200">
-                                    <div class="text-2xl font-bold text-blue-900 mb-2">Image Retrieval</div>
-                                    <div class="text-xl text-gray-600">Query: Image<br />Output: Images</div>
-                                </div>
-                                <div class="bg-green-50 p-4 rounded border-2 border-green-200">
-                                    <div class="text-2xl font-bold text-green-900 mb-2">Text Retrieval</div>
+                                    <div class="text-2xl font-bold text-blue-900 mb-2">Text-to-Image</div>
                                     <div class="text-xl text-gray-600">Query: Text<br />Output: Images</div>
                                 </div>
+                                <div class="bg-green-50 p-4 rounded border-2 border-green-200">
+                                    <div class="text-2xl font-bold text-green-900 mb-2">Image-to-Image</div>
+                                    <div class="text-xl text-gray-600">Query: Image<br />Output: Similar Images</div>
+                                </div>
                                 <div class="bg-purple-50 p-4 rounded border-2 border-purple-200">
-                                    <div class="text-2xl font-bold text-purple-900 mb-2">Cross-Modal</div>
-                                    <div class="text-xl text-gray-600">Query: Text+Image<br />Output: Images</div>
+                                    <div class="text-2xl font-bold text-purple-900 mb-2">Multimodal</div>
+                                    <div class="text-xl text-gray-600">Query: Text+Image<br />Output: Relevant Images
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -280,54 +292,56 @@
                     <div class="section-title"><i class="fas fa-database"></i> MS COCO Dataset</div>
                     <div class="p-5 space-y-4">
                         <div>
-                            <h3 class="text-3xl font-bold text-blue-900 mb-3">Data Annotation</h3>
+                            <h3 class="text-3xl font-bold text-blue-900 mb-3">Dataset Overview</h3>
                             <ul class="text-2xl space-y-2 text-gray-800">
                                 <li class="flex items-start">
-                                    <i class="fas fa-robot list-item-icon mt-2"></i>
-                                    <span><strong>Generation:</strong> Layout Simulation + LLM-based Query
-                                        Generation</span>
+                                    <i class="fas fa-images list-item-icon mt-2"></i>
+                                    <span><strong>Source:</strong> MS COCO 2017 Validation Set</span>
                                 </li>
                                 <li class="flex items-start">
-                                    <i class="fas fa-filter list-item-icon mt-2"></i>
-                                    <span><strong>Filtering:</strong> Multi-model Scoring + Manual Verification</span>
+                                    <i class="fas fa-layer-group list-item-icon mt-2"></i>
+                                    <span><strong>Content:</strong> Natural scene images with rich captions</span>
                                 </li>
                             </ul>
                         </div>
 
                         <div class="metric-box p-4 rounded-lg">
-                            <h3 class="text-3xl font-bold text-blue-900 mb-3">Data Overview</h3>
-                            <div class="grid grid-cols-2 gap-4">
-                                <div class="text-center p-4 bg-white rounded">
-                                    <div class="text-6xl font-bold text-blue-600">5,000</div>
-                                    <div class="text-2xl text-gray-700 mt-2">Document Images</div>
+                            <h3 class="text-3xl font-bold text-blue-900 mb-3">Preprocessing Pipeline</h3>
+                            <div class="grid grid-cols-1 gap-3">
+                                <div class="text-center p-3 bg-white rounded">
+                                    <div class="text-2xl font-semibold text-blue-600">Image Preprocessing</div>
+                                    <div class="text-xl text-gray-700 mt-1">Resize to 224×224 → Normalize</div>
                                 </div>
-                                <div class="text-center p-4 bg-white rounded">
-                                    <div class="text-6xl font-bold text-blue-600">25,000+</div>
-                                    <div class="text-2xl text-gray-700 mt-2">Annotations</div>
+                                <div class="text-center p-3 bg-white rounded">
+                                    <div class="text-2xl font-semibold text-blue-600">Embedding Generation</div>
+                                    <div class="text-xl text-gray-700 mt-1">CLIP ViT-B/32 → Vector (.npy)</div>
+                                </div>
+                                <div class="text-center p-3 bg-white rounded">
+                                    <div class="text-2xl font-semibold text-blue-600">Index Building</div>
+                                    <div class="text-xl text-gray-700 mt-1">FAISS IndexFlatIP</div>
                                 </div>
                             </div>
                         </div>
 
                         <div>
                             <ul class="text-2xl space-y-2 text-gray-800">
-                                <li><strong>Split:</strong> 8:1:1 → Training / Validation / Test</li>
-                                <li><strong>Source:</strong> UCSF Industry Documents Library</li>
-                                <li><strong>OCR Tools:</strong> Microsoft OCR (DocVQA) & Amazon Textract</li>
+                                <li><i class="fas fa-check list-item-icon"></i> <strong>Model:</strong> CLIP ViT-B/32
+                                    (OpenAI)</li>
+                                <li><i class="fas fa-check list-item-icon"></i> <strong>Storage:</strong> File System +
+                                    SQLite</li>
+                                <li><i class="fas fa-check list-item-icon"></i> <strong>Index:</strong> FAISS Inner
+                                    Product Search</li>
                             </ul>
                         </div>
 
-                        <!-- Bar Chart Placeholder -->
+                        <!-- TODO: Add dataset statistics chart -->
                         <div class="chart-container p-6 rounded-lg">
-                            <p class="text-2xl text-gray-700 mb-4"><strong>Figure 2.</strong> Statistics of dataset
-                                distribution</p>
-                            <div
-                                class="h-64 bg-gradient-to-t from-blue-100 to-white rounded flex items-end justify-around px-4 pb-4">
-                                <div class="w-16 bg-blue-500 rounded-t" style="height: 80%"></div>
-                                <div class="w-16 bg-blue-500 rounded-t" style="height: 65%"></div>
-                                <div class="w-16 bg-blue-500 rounded-t" style="height: 90%"></div>
-                                <div class="w-16 bg-blue-500 rounded-t" style="height: 70%"></div>
-                                <div class="w-16 bg-blue-500 rounded-t" style="height: 85%"></div>
-                                <div class="w-16 bg-blue-500 rounded-t" style="height: 60%"></div>
+                            <p class="text-2xl text-gray-700 mb-4"><strong>Figure 2.</strong> Dataset Characteristics
+                            </p>
+                            <div class="text-center text-xl text-gray-600 py-8">
+                                <i class="fas fa-chart-bar text-6xl text-blue-300 mb-4"></i>
+                                <p>📊 TODO: Add dataset statistics visualization</p>
+                                <p class="text-lg mt-2">(Category distribution, image count, etc.)</p>
                             </div>
                         </div>
                     </div>
@@ -460,47 +474,48 @@
                     <div class="section-title"><i class="fas fa-chart-line"></i> Result Analysis</div>
                     <div class="p-5 space-y-4">
                         <div>
-                            <h3 class="text-3xl font-bold text-blue-900 mb-3">Analysis on Recall Stage</h3>
+                            <h3 class="text-3xl font-bold text-blue-900 mb-3">Retrieval Performance</h3>
 
                             <!-- Performance Table -->
                             <div class="border-2 border-blue-300 rounded-lg overflow-hidden mb-6">
                                 <table class="w-full text-2xl">
                                     <thead>
                                         <tr class="table-header">
-                                            <th class="p-3 text-left">Model</th>
-                                            <th class="p-3 text-center">Recall@1</th>
-                                            <th class="p-3 text-center">Recall@5</th>
-                                            <th class="p-3 text-center">Recall@10</th>
+                                            <th class="p-3 text-left">Metric</th>
+                                            <th class="p-3 text-center">Value</th>
+                                            <th class="p-3 text-center">Status</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr class="border-t-2 border-blue-200 bg-blue-50">
-                                            <td class="p-3 font-semibold">CLIP-Base</td>
-                                            <td class="p-3 text-center">31.67</td>
-                                            <td class="p-3 text-center">68.33</td>
-                                            <td class="p-3 text-center">81.67</td>
+                                            <td class="p-3 font-semibold">Recall@1</td>
+                                            <td class="p-3 text-center">31.67%</td>
+                                            <td class="p-3 text-center">⚠️ Need improvement</td>
                                         </tr>
                                         <tr class="border-t border-blue-100">
-                                            <td class="p-3">BLIP-Large</td>
-                                            <td class="p-3 text-center">35.44</td>
-                                            <td class="p-3 text-center">73.12</td>
-                                            <td class="p-3 text-center">84.23</td>
+                                            <td class="p-3 font-semibold">Recall@5</td>
+                                            <td class="p-3 text-center">68.33%</td>
+                                            <td class="p-3 text-center">✅ Good</td>
                                         </tr>
                                         <tr class="border-t border-blue-100">
-                                            <td class="p-3">InternVL</td>
-                                            <td class="p-3 text-center">28.25</td>
-                                            <td class="p-3 text-center">64.43</td>
-                                            <td class="p-3 text-center">79.56</td>
+                                            <td class="p-3 font-semibold">Recall@10</td>
+                                            <td class="p-3 text-center">81.67%</td>
+                                            <td class="p-3 text-center">✅ Excellent</td>
+                                        </tr>
+                                        <tr class="border-t border-blue-100 bg-green-50">
+                                            <td class="p-3 font-semibold">Avg Latency</td>
+                                            <td class="p-3 text-center">84.7ms</td>
+                                            <td class="p-3 text-center">🏆 Very Fast</td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
 
                             <ul class="text-2xl space-y-2 text-gray-800">
-                                <li><i class="fas fa-check list-item-icon"></i> Fine-grained alignment of BLIP achieves
-                                    recall@1 of 81.03%</li>
-                                <li><i class="fas fa-check list-item-icon"></i> OCR-IR pipeline is outperformed by
-                                    Pix2Struct methods</li>
+                                <li><i class="fas fa-check list-item-icon"></i> System achieves <strong>68.33%
+                                        Recall@5</strong> - 2/3 relevant docs found in top-5</li>
+                                <li><i class="fas fa-check list-item-icon"></i> <strong>Latency &lt;100ms</strong>
+                                    enables real-time interactive search</li>
                             </ul>
                         </div>
 
@@ -549,15 +564,16 @@
                             </div>
                         </div>
 
-                        <div class="mt-8 chart-container p-6 rounded-lg">
-                            <h4 class="text-3xl font-bold text-gray-800 mb-4">Qualitative Analysis</h4>
+                        <div class="mt-6 chart-container p-6 rounded-lg">
+                            <h4 class="text-3xl font-bold text-gray-800 mb-4">Key Insights</h4>
                             <ul class="text-2xl space-y-2 text-gray-700">
-                                <li><i class="fas fa-search list-item-icon"></i> OCR-free NL-DIR fully leverages visual
-                                    information</li>
-                                <li><i class="fas fa-sort-amount-down list-item-icon"></i> Re-ranking stage enables
-                                    fine-grained matching</li>
-                                <li><i class="fas fa-comment-alt list-item-icon"></i> Concrete queries yield better
-                                    performance than abstract ones</li>
+                                <li><i class="fas fa-lightbulb list-item-icon"></i> <strong>Best performance</strong> on
+                                    Simple Objects (80% Recall@5)</li>
+                                <li><i class="fas fa-chart-line list-item-icon"></i> Performance decreases on
+                                    <strong>Abstract Concepts</strong> (53.33%)
+                                </li>
+                                <li><i class="fas fa-robot list-item-icon"></i> <strong>Faithfulness 64.21%</strong>
+                                    shows minimal hallucination with RAG</li>
                             </ul>
                         </div>
                     </div>
@@ -599,13 +615,35 @@
                             </ul>
                         </div>
 
-                        <!-- <div class="mt-8 pt-6 border-t-4 border-blue-300">
-                            <div class="text-center">
-                                <p class="text-3xl font-bold text-gray-800 mb-2">Contact Information</p>
-                                <p class="text-2xl text-gray-600">📧 email@university.edu</p>
-                                <p class="text-2xl text-gray-600">🔗 github.com/project-repo</p>
+                        <!-- System Screenshots Section -->
+                        <div class="mt-6 chart-container p-6 rounded-lg">
+                            <h3 class="text-3xl font-bold text-blue-900 mb-4">System Interface</h3>
+                            <div class="text-center text-xl text-gray-600 py-6">
+                                <i class="fas fa-desktop text-6xl text-blue-300 mb-4"></i>
+                                <p>📸 TODO: Add system screenshots here</p>
+                                <p class="text-lg mt-2">(UI interface, search results, generation output)</p>
                             </div>
-                        </div> -->
+                        </div>
+
+                        <div class="mt-6 pt-6 border-t-4 border-blue-300">
+                            <div class="text-center">
+                                <p class="text-3xl font-bold text-gray-800 mb-3">Repository & Contact</p>
+                                <div class="flex justify-center items-center gap-8">
+                                    <div class="text-left text-2xl text-gray-700">
+                                        <p><i class="fas fa-code-branch text-blue-600"></i> <strong>GitHub:</strong>
+                                            github.com/wempy-aditya/multimodal-rag</p>
+                                        <p class="mt-2"><i class="fas fa-university text-blue-600"></i>
+                                            <strong>Institution:</strong> Universitas Muhammadiyah Malang</p>
+                                        <p class="mt-2"><i class="fas fa-envelope text-blue-600"></i>
+                                            <strong>Contact:</strong> [email@umm.ac.id]</p>
+                                    </div>
+                                    <!-- TODO: Add QR Code for repository -->
+                                    <div class="w-32 h-32 bg-gray-200 rounded-lg flex items-center justify-center">
+                                        <i class="fas fa-qrcode text-5xl text-gray-400"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
